@@ -1,14 +1,10 @@
-package org.example;
+package org.example.chapter01;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.sql.Timestamp;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class EmployeeVO {
     private Long id;
     private String name;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 매퍼 XML에서 사용할 Alias 선언 -->
+    <typeAliases>
+        <typeAlias alias="employee" type="org.example.chapter01.mybatis.EmployeeVO" />
+    </typeAliases>
+
+    <!-- 데이터소스 설정 -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="org.h2.Driver"/>
+                <property name="url" value="jdbc:h2:tcp://localhost/~/test"/>
+                <property name="username" value="sa"/>
+                <property name="password" value=""/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 매퍼 XML 등록 -->
+    <mappers>
+        <mapper resource="org/example/chapter01/mybatis/s_emp-mapping.xml"/>
+    </mappers>
+</configuration>

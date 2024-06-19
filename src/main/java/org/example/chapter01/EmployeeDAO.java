@@ -1,4 +1,6 @@
-package org.example;
+package org.example.chapter01;
+
+import org.example.chapter01.mybatis.EmployeeVO;
 
 import java.sql.*;
 import java.util.ArrayList;
