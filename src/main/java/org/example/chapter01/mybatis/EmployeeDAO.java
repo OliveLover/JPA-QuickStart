@@ -16,6 +16,7 @@ public class EmployeeDAO {
     public EmployeeDAO() {
         try {
             Reader reader = Resources.getResourceAsReader("org/example/chapter01/mybatis/sql-map-config.xml");
+
             SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
             mybatis = sessionFactory.openSession();
         } catch (IOException e) {

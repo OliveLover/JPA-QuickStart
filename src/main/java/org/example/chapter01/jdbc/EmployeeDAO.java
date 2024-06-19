@@ -1,4 +1,4 @@
-package org.example.chapter01;
+package org.example.chapter01.jdbc;
 
 import org.example.chapter01.mybatis.EmployeeVO;
 
