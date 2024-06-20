@@ -7,12 +7,13 @@ public class EmployeeServiceClient {
 
     public static void main(String[] args) {
         EmployeeVO vo = new EmployeeVO();
-        vo.setId(5L);
+        vo.setId(6L);
         vo.setName("고길동");
         vo.setStartDate(new Timestamp(System.currentTimeMillis()));
         vo.setTitle("과장");
         vo.setDeptName("총무부");
         vo.setSalary(2500.00);
+        vo.setEmail("guest@ruby.co.kr");
 
         EmployeeDAO employeeDAO = new EmployeeDAO();
         employeeDAO.insertEmployee(vo);
