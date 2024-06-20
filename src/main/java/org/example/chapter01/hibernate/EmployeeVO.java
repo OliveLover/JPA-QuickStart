@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Data
-@Entity
-@Table(name = "S_EMP")
+//@Entity
+//@Table(name = "S_EMP")
 public class EmployeeVO {
 
     @Id
