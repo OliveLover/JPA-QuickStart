@@ -5,10 +5,8 @@ import org.example.chapter01.mybatis.EmployeeVO;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class EmployeeServiceClient {
+    public static void main(String[] args) {
         EmployeeVO vo = new EmployeeVO();
         vo.setName("홍길동");
         vo.setStartDate(new Timestamp(System.currentTimeMillis()));
@@ -20,7 +18,7 @@ public class App
         employeeDAO.insertEmployee(vo);
 
         List<EmployeeVO> employeeList = employeeDAO.getEmployeeList();
-        for(EmployeeVO employee : employeeList) {
+        for (EmployeeVO employee : employeeList) {
             System.out.println(" ---> " + employee.toString());
         }
     }
