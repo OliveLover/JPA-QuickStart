@@ -14,17 +14,15 @@ public class EmployeeServiceClient {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            // 엔티티 생성 및 초기화
-            Employee employee = new Employee();
-            employee.setName("둘리");
-
-            // 회원 등록 요청
             tx.begin();
-            System.out.println("등록 전 id : " + employee.getId());
 
-            em.persist(employee);
+            // 100 명의 직원 정보 등록 처리
+            for (int i = 1; i <= 100; i++) {
+                Employee employee = new Employee();
+                employee.setName("직원 - " + i);
+                em.persist(employee);
+            }
 
-            System.out.println("등록 후 id : " + employee.getId());
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
