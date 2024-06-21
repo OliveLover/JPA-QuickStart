@@ -11,7 +11,7 @@ import javax.persistence.*;
 @SequenceGenerator(name = "S_EMP_GENERATOR",
         sequenceName = "S_EMP_SEQUENCE",
         initialValue = 1,
-        allocationSize = 1)
+        allocationSize = 50)
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
