@@ -15,20 +15,12 @@ public class EmployeeServiceClient {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            tx.begin();
-
             // 회원 등록 요청
             EmployeeId empId = new EmployeeId(1L, "guest123");
-
-            Employee employee = new Employee();
-            employee.setEmpId(empId);
-            employee.setName("둘리");
-            em.persist(employee);
-
-            tx.commit();
+            Employee findEmployee = em.find(Employee.class, empId);
+            System.out.println("검색된 직원 정보 : " + findEmployee.toString());
         } catch (Exception e) {
             e.printStackTrace();
-            tx.rollback();
         } finally {
             em.close();
             emf.close();
