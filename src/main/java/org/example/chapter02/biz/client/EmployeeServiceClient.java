@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.Date;
 
 public class EmployeeServiceClient {
     public static void main(String[] args) {
@@ -27,7 +26,16 @@ public class EmployeeServiceClient {
 
             // 회원 등록 요청
             tx.begin();
+            System.out.println("등록 전 id : " + employee.getId());
             em.persist(employee);
+
+            for (int i = 0; i < 30; i++) {
+                Thread.sleep(1000);
+                System.out.println("ZZZ...");
+            }
+
+            System.out.println("등록 후 id : " + employee.getId());
+
             tx.commit();
 
             // 등록한 회원 검색
