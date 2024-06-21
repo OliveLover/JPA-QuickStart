@@ -21,7 +21,15 @@ public class EmployeeServiceClient {
 
         try {
             // 엔티티 생성 및 초기화
-            Employee employee = new Employee(1L, "둘리", "gurum", new Date(), "과장", "총무부", 2500.00, 12.50, null, null);
+            Employee employee = new Employee();
+            employee.setId(1L);
+            employee.setName("둘리");
+            employee.setMailId("gurum");
+            employee.setStartDate(new Date());
+            employee.setTitle("과장");
+            employee.setDeptName("총무부");
+            employee.setSalary(2500.00);
+            employee.setCommissionPct(12.50);
 
             // 회원 등록 요청
             tx.begin();
