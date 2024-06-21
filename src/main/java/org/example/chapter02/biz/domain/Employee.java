@@ -20,7 +20,8 @@ public class Employee {
     @Column(length = 8, unique = true)
     private String mailId;
 
-    @Column(name = "START_DATE", insertable = false)
+    @Column(name = "START_DATE")
+    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @Column(length = 25)
