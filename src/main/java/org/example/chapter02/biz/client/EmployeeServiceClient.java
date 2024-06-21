@@ -20,33 +20,23 @@ public class EmployeeServiceClient {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            // 엔티티 생성
-            Employee employee = new Employee();
-            employee.setId(2L);
-            employee.setName("둘리");
-            employee.setMailId("gurum");
-            employee.setStartDate(new Date());
-            employee.setTitle("과장");
-            employee.setDeptName("총무부");
-            employee.setSalary(2500.00);
-            employee.setCommissionPct(12.50);
+            // 엔티티 생성 및 초기화
+            Employee employee = new Employee(1L, "둘리", "gurum", new Date(), "과장", "총무부", 2500.00, 12.50, null, null);
 
-            // 트랜잭션 시작
+            // 회원 등록 요청
             tx.begin();
-
-            // 직원 등록 처리
             em.persist(employee);
-
-            // 트랜잭션 종료(COMMIT)
             tx.commit();
+
+            // 등록한 회원 검색
+            Employee findEmployee = em.find(Employee.class, 1L);
+            System.out.println("검색한 회원 정보");
+            System.out.println(findEmployee.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
-
-            // 트랜잭션 종료(ROLLBACK)
             tx.rollback();
         } finally {
-            // 엔티티 매니저 및 엔티티 매니저 팩토리 종료
             em.close();
             emf.close();
         }

@@ -1,14 +1,20 @@
 package org.example.chapter02.biz.domain;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
+
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"searchCondition", "searchKeyword"})
 @Entity
 @Table(name = "S_EMP",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME", "MAILID"})})
+@Access(AccessType.FIELD)
 public class Employee {
     @Id
     @Column(length = 7, nullable = false)
