@@ -16,12 +16,10 @@ public class EmployeeServiceClient {
         try {
             tx.begin();
 
-            // 100 명의 직원 정보 등록 처리
-            for (int i = 1; i <= 100; i++) {
-                Employee employee = new Employee();
-                employee.setName("직원 - " + i);
-                em.persist(employee);
-            }
+            // 회원 등록 요청
+            Employee employee = new Employee();
+            employee.setName("둘리");
+            em.persist(employee);
 
             tx.commit();
         } catch (Exception e) {
