@@ -22,7 +22,7 @@ public class EmployeeServiceClient {
         try {
             // 엔티티 생성
             Employee employee = new Employee();
-            employee.setId(1L);
+            employee.setId(2L);
             employee.setName("둘리");
             employee.setMailId("gurum");
             employee.setStartDate(new Date());
