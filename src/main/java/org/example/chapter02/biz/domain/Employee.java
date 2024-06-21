@@ -2,15 +2,13 @@ package org.example.chapter02.biz.domain;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "S_EMP")
+@Table(name = "S_EMP",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME", "MAILID"})})
 public class Employee {
     @Id
     private Long id;
