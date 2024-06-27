@@ -8,17 +8,8 @@ public class EmployeeServiceClient {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter03");
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
 
         try {
-            Employee employee = new Employee();
-            employee.setName("둘리");
-
-            // 직원 등록
-            tx.begin();
-            em.persist(employee);
-            tx.commit();
-
             // 직원 검색
             Employee findEmp1 = em.find(Employee.class, 1L);
             Employee findEmp2 = em.find(Employee.class, 1L);
@@ -29,7 +20,6 @@ public class EmployeeServiceClient {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            tx.rollback();
         } finally {
             em.close();
             emf.close();
