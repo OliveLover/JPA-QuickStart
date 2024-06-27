@@ -26,23 +26,11 @@ public class EmployeeServiceClient {
             // 직원 등록 --> 관리 상태로 전환
             em.persist(employee);
 
-            if(em.contains(employee)) {
-                System.out.println(employee.toString() + " MANAGED");
-            }
-
-            // 1번 직원 엔티티를 분리 상태로 전환
-            em.detach(employee);
-
-            if(!em.contains(employee)) {
-                System.out.println(employee.toString() + " DETACHED");
-            }
-
-            // 분리 상태의 엔티티 수정
-            employee.setName("이름 수정");
+            // 엔티티 삭제
+            em.remove(employee);
 
             tx.commit();
-
-            System.out.println("최종 직원 정보 : " + employee.toString());
+            
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
