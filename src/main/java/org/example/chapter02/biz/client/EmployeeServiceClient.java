@@ -25,12 +25,11 @@ public class EmployeeServiceClient {
 
             // 직원 등록
             em.persist(employee);
-
-            // 관리 상태의 엔티티 수정
-            employee.setName("수정이름");
-
-            // 트랜잭션 종료(COMMIT)
             tx.commit();
+
+            // 직원 검색
+            Employee findEmp = em.find(Employee.class, 1L);
+            System.out.println("검색된 직원 정보 : " + findEmp.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
