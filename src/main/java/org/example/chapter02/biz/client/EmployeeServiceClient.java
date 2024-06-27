@@ -8,24 +8,25 @@ public class EmployeeServiceClient {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter03");
         EntityManager em = emf.createEntityManager();
-
-        // 플러시 모드 설정
-        em.setFlushMode(FlushModeType.COMMIT);
-
-        // 엔티티 트랜잭션 생성
         EntityTransaction tx = em.getTransaction();
 
         try {
-            // 회원 등록 요청
             Employee employee = new Employee();
             employee.setName("둘리");
 
+            // 직원 등록
             tx.begin();
-
-            // 직원 등록 --> 관리 상태로 전환
             em.persist(employee);
-//            tx.commit();
-            
+            tx.commit();
+
+            // 직원 검색
+            Employee findEmp1 = em.find(Employee.class, 1L);
+            Employee findEmp2 = em.find(Employee.class, 1L);
+
+            // 객체의 동일성 비교
+            if(findEmp1 == findEmp2) {
+                System.out.println("검색된 두 객체는 동일한 객체다.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
