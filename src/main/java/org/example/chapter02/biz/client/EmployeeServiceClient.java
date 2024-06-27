@@ -28,7 +28,12 @@ public class EmployeeServiceClient {
             // 직원 엔티티 이름 수정
             tx.begin();
             employee.setName("똘리");
+            Employee mergedEmp = em.merge(employee);
             tx.commit();
+
+            // 관리 상태 여부 확인
+            System.out.println("employee 관리 : " + em.contains(employee));
+            System.out.println("mergedEmp 관리 : " + em.contains(mergedEmp));
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
