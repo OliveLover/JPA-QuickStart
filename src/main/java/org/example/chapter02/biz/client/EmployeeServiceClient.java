@@ -12,7 +12,8 @@ public class EmployeeServiceClient {
 
         try {
             // 직원 엔티티 검색
-            em.getReference(Employee.class, 1L);
+            Employee findEmp = em.getReference(Employee.class, 1L);
+            System.out.println("검색된 직원의 이름 : " + findEmp.getName());
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
