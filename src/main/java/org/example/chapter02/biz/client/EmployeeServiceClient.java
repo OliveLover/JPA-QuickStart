@@ -17,24 +17,34 @@ public class EmployeeServiceClient {
 
         try {
             // 회원 등록 요청
-//            Employee employee = new Employee();
-//            employee.setName("둘리");
-//
-//            // 트랜잭션 시작
-//            tx.begin();
-//
-//            // 직원 등록
-//            em.persist(employee);
-//            tx.commit();
+            Employee employee = new Employee();
+            employee.setName("둘리");
 
-            // 직원 검색
-            Employee findEmp = em.find(Employee.class, 1L);
-            System.out.println("검색된 직원 정보 : " + findEmp.toString());
+            // 트랜잭션 시작
+            tx.begin();
 
+            // 직원 등록 --> 관리 상태로 전환
+            em.persist(employee);
+
+            if(em.contains(employee)) {
+                System.out.println(employee.toString() + " MANAGED");
+            }
+
+            // 1번 직원 엔티티를 분리 상태로 전환
+            em.detach(employee);
+
+            if(!em.contains(employee)) {
+                System.out.println(employee.toString() + " DETACHED");
+            }
+
+            // 분리 상태의 엔티티 수정
+            employee.setName("이름 수정");
+
+            tx.commit();
+
+            System.out.println("최종 직원 정보 : " + employee.toString());
         } catch (Exception e) {
             e.printStackTrace();
-
-            // 트랜잭션 종료(ROLLBACK)
             tx.rollback();
         } finally {
             em.close();
