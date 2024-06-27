@@ -2,9 +2,7 @@ package org.example.chapter02.biz.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Data
@@ -12,7 +10,8 @@ import javax.persistence.Table;
 @Table(name = "S_EMP")
 public class Employee {
     @Id
-    private EmployeeId empId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 }
