@@ -11,24 +11,8 @@ public class EmployeeServiceClient {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            // 직원 엔티티 등록
-            Employee employee = new Employee();
-            employee.setName("이름을 수정한 똘리");
-
-            // 직원 엔티티 이름 수정
-            tx.begin();
-            em.persist(employee);
-            tx.commit();
-
-            for(int i = 0; i < 30; i++) {
-                Thread.sleep(1000);
-                System.out.println("다른 사용자가 데이터 수정중... " + i);
-            }
-
-            // 엔티티 REFRESH
-            em.refresh(employee);
-            System.out.println("갱신된 직원 정보 : " + employee.toString());
-
+            // 직원 엔티티 검색
+            em.getReference(Employee.class, 1L);
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
