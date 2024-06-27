@@ -2,7 +2,11 @@ package org.example.chapter02.biz.client;
 
 import org.example.chapter02.biz.domain.Employee;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import java.util.List;
 
 public class EmployeeServiceClient {
     public static void main(String[] args) {
@@ -11,9 +15,22 @@ public class EmployeeServiceClient {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            // 직원 엔티티 검색
-            Employee findEmp = em.getReference(Employee.class, 1L);
-            System.out.println("검색된 직원의 이름 : " + findEmp.getName());
+            // 직원 등록
+            tx.begin();
+            for (int i = 1; i <= 10; i++) {
+                Employee employee = new Employee();
+                employee.setName("직원-" + i);
+                em.persist(employee);
+            }
+            tx.commit();
+
+            // 직원 목록 조회
+            String jpql = "SELECT e FROM Employee e ORDER BY e.id DESC";
+            List<Employee> employeeList =
+                    em.createQuery(jpql, Employee.class).getResultList();
+            for (Employee employee : employeeList) {
+                System.out.println("--> " + employee.toString());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
