@@ -13,13 +13,22 @@ public class EmployeeServiceClient {
         try {
             // 직원 엔티티 등록
             Employee employee = new Employee();
-            employee.setId(1L);
             employee.setName("이름을 수정한 똘리");
 
             // 직원 엔티티 이름 수정
             tx.begin();
-            em.merge(employee);
+            em.persist(employee);
             tx.commit();
+
+            for(int i = 0; i < 30; i++) {
+                Thread.sleep(1000);
+                System.out.println("다른 사용자가 데이터 수정중... " + i);
+            }
+
+            // 엔티티 REFRESH
+            em.refresh(employee);
+            System.out.println("갱신된 직원 정보 : " + employee.toString());
+
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
