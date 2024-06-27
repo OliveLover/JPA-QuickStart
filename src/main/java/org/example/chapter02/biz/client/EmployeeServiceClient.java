@@ -26,6 +26,9 @@ public class EmployeeServiceClient {
             // 직원 등록
             em.persist(employee);
 
+            // 관리 상태의 엔티티 수정
+            employee.setName("수정이름");
+
             // 트랜잭션 종료(COMMIT)
             tx.commit();
 
