@@ -14,12 +14,20 @@ public class EmployeeServiceClient {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            // 직원 검색
-            Employee findEmp = em.find(Employee.class, 1L);
+            // 직원 엔티티 등록
+            Employee employee = new Employee();
+            employee.setName("둘리");
 
-            // 직원 이름 변경
             tx.begin();
-            findEmp.setName("똘리");
+            em.persist(employee);
+            tx.commit();
+
+            // 모든 엔티티를 분리 상태로 전환시킨다.
+            em.clear();
+
+            // 직원 엔티티 이름 수정
+            tx.begin();
+            employee.setName("똘리");
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
