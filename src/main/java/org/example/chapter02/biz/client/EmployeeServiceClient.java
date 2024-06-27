@@ -17,15 +17,15 @@ public class EmployeeServiceClient {
 
         try {
             // 회원 등록 요청
-            Employee employee = new Employee();
-            employee.setName("둘리");
-
-            // 트랜잭션 시작
-            tx.begin();
-
-            // 직원 등록
-            em.persist(employee);
-            tx.commit();
+//            Employee employee = new Employee();
+//            employee.setName("둘리");
+//
+//            // 트랜잭션 시작
+//            tx.begin();
+//
+//            // 직원 등록
+//            em.persist(employee);
+//            tx.commit();
 
             // 직원 검색
             Employee findEmp = em.find(Employee.class, 1L);
