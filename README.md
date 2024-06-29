@@ -8,9 +8,15 @@
 
 </li>
 <li>
-  
+
 [JPA와 어노테이션](https://github.com/OliveLover/JPA-QuickStart/blob/main/study/2.%20JPA%EC%99%80%20%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98.md)
 
+</li>
+
+<li>
+  
+[영속 컨텍스트와 엔티티 관리](https://github.com/OliveLover/JPA-QuickStart/blob/main/study/3.%20%EC%98%81%EC%86%8D%20%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%99%80%20%EC%97%94%ED%8B%B0%ED%8B%B0%20%EA%B4%80%EB%A6%AC.md)
+  
 </li>
 </ol>
 
