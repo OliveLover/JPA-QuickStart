@@ -23,7 +23,9 @@ public class ManyToOneOneWayClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
         Employee employee = em.find(Employee.class, 2L);
-        System.out.println(employee.getName() + "의 부서 : " + employee.getDept().getName());
+//        System.out.println(employee.getName() + " 직원이 검색됨");
+        System.out.println(employee.getName() + " 의 부서 : " +
+                employee.getDept().getName());
     }
 
     private static void dataInsert(EntityManagerFactory emf) {

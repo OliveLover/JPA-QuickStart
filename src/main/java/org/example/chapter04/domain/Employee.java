@@ -16,7 +16,7 @@ public class Employee {
     @Column(length = 25, nullable = false)
     private String name;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPT_ID")
     private Department dept;
 }
