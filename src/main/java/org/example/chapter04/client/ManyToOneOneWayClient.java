@@ -12,12 +12,27 @@ public class ManyToOneOneWayClient {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter04");
         try {
             dataInsert(emf);
-            dataSelect(emf);
+            dataUpdate(emf);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             emf.close();
         }
+    }
+
+    private static void dataUpdate(EntityManagerFactory emf) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        // 신규 부서 등록
+        Department department = new Department();
+        department.setName("영업부");
+        em.persist(department);
+
+        // 부서 변경
+        Employee employee = em.find(Employee.class, 1L);
+        employee.setDept(department);
+        em.getTransaction().commit();
     }
 
     private static void dataSelect(EntityManagerFactory emf) {
