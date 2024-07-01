@@ -16,7 +16,7 @@ public class Employee {
     @Column(length = 25, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "DEPT_ID")
     private Department dept;
 

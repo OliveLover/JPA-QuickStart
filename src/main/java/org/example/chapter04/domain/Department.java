@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(exclude = "employeeList")
@@ -21,6 +21,6 @@ public class Department {
     @Column(length = 25, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "dept")
-    private Set<Employee> employeeList = new HashSet<>();
+    @OneToMany(mappedBy = "dept", cascade = CascadeType.PERSIST)
+    private List<Employee> employeeList = new ArrayList<>();
 }

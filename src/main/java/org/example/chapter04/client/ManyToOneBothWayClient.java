@@ -41,12 +41,15 @@ public class ManyToOneBothWayClient {
         department.setName("개발부");
 //        em.persist(department);
 
-        // 직원1 등록(Employee --> Department 참조)
-        Employee employee1 = new Employee();
-        employee1.setName("둘리");
-        employee1.setDept(department);
-        em.persist(employee1);
-        
+        // 직원 여러 명 등록
+        for (int i = 1; i <= 5; i++) {
+            Employee employee = new Employee();
+            employee.setName("직원-" + i);
+            employee.setDept(department);
+//            em.persist(employee);
+        }
+        em.persist(department);
+
         em.getTransaction().commit();
         em.close();
     }
