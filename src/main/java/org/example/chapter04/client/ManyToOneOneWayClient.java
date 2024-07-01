@@ -12,11 +12,18 @@ public class ManyToOneOneWayClient {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter04");
         try {
             dataInsert(emf);
+            dataSelect(emf);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             emf.close();
         }
+    }
+
+    private static void dataSelect(EntityManagerFactory emf) {
+        EntityManager em = emf.createEntityManager();
+        Employee employee = em.find(Employee.class, 2L);
+        System.out.println(employee.getName() + "의 부서 : " + employee.getDept().getName());
     }
 
     private static void dataInsert(EntityManagerFactory emf) {
