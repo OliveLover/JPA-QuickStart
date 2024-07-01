@@ -36,22 +36,22 @@ public class ManyToOneBothWayClient {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        // 직원1 등록
-        Employee employee1 = new Employee();
-        employee1.setName("둘리");
-        em.persist(employee1);
-
-        // 직원2 등록
-        Employee employee2 = new Employee();
-        employee2.setName("도우너");
-        em.persist(employee2);
-
         // 부서 등록
         Department department = new Department();
         department.setName("개발부");
-        department.getEmployeeList().add(employee1);
-        department.getEmployeeList().add(employee2);
         em.persist(department);
+
+        // 직원1 등록(Employee --> Department 참조)
+        Employee employee1 = new Employee();
+        employee1.setName("둘리");
+        employee1.setDept(department);
+        em.persist(employee1);
+
+        // 직원2 등록(Employee --> Department 참조)
+        Employee employee2 = new Employee();
+        employee2.setName("도우너");
+        employee2.setDept(department);
+        em.persist(employee2);
 
         em.getTransaction().commit();
         em.close();
