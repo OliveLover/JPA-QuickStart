@@ -54,9 +54,9 @@ public class ManyToOneBothWayClient {
         em.persist(employee2);
 
         // Department.employeeList에 Employee 등록
-        department.getEmployeeList().add(employee1);
-        department.getEmployeeList().add(employee2);
-        
+//        department.getEmployeeList().add(employee1);
+//        department.getEmployeeList().add(employee2);
+
         System.out.println(department.getName() + "의 직원 수 : " +
                 department.getEmployeeList().size());
 
