@@ -11,8 +11,8 @@ import javax.persistence.Table;
 
 @Data
 @DynamicUpdate
-@Entity
-@Table(name = "S_EMP")
+//@Entity
+//@Table(name = "S_EMP")
 public class Employee {
     @Id
     @GeneratedValue//(strategy = GenerationType.IDENTITY)
