@@ -12,12 +12,21 @@ public class ManyToOneOneWayClient {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter04");
         try {
             dataInsert(emf);
-            dataUpdate(emf);
+            dataDelete(emf);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             emf.close();
         }
+    }
+
+    private static void dataDelete(EntityManagerFactory emf) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        Department department = em.find(Department.class, 1L);
+        em.remove(department);
+        em.getTransaction().commit();
     }
 
     private static void dataUpdate(EntityManagerFactory emf) {
