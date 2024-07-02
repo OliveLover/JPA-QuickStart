@@ -42,10 +42,10 @@ public class ManyToOneBothWayClient {
         Department department = em.find(Department.class, 1L);
 
         // 부서에 등록된 직원 삭제
-        List<Employee> employeeList = department.getEmployeeList();
-        for (Employee employee : employeeList) {
-            em.remove(employee);
-        }
+//        List<Employee> employeeList = department.getEmployeeList();
+//        for (Employee employee : employeeList) {
+//            em.remove(employee);
+//        }
 
         // 부서 삭제
         em.remove(department);
