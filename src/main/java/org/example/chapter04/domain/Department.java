@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(exclude = "employeeList")
-@Entity
-@Table(name = "S_DEPT")
+//@Entity
+//@Table(name = "S_DEPT")
 public class Department {
 
     @Id
