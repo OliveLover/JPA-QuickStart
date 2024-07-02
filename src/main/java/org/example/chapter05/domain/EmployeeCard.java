@@ -12,7 +12,7 @@ public class EmployeeCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "CARD_ID")
     private Long cardId;    // 사원증 아이디
 
     @Column(name = "EXPIRE_DATE")
@@ -20,7 +20,7 @@ public class EmployeeCard {
 
     private String role;   // 권한
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "EMP_CARD_ID")
     private Employee employee;
 }
