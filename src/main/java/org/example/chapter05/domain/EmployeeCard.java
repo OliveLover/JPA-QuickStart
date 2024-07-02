@@ -20,7 +20,7 @@ public class EmployeeCard {
 
     private String role;   // 권한
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "EMP_CARD_ID")
     private Employee employee;
 }
