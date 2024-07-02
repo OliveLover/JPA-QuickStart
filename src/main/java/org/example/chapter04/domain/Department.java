@@ -21,6 +21,6 @@ public class Department {
     @Column(length = 25, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "dept", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "dept", cascade = {CascadeType.PERSIST}, orphanRemoval = true)
     private List<Employee> employeeList = new ArrayList<>();
 }

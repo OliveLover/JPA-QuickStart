@@ -41,14 +41,9 @@ public class ManyToOneBothWayClient {
         // 부서 검색
         Department department = em.find(Department.class, 1L);
 
-        // 부서에 등록된 직원 삭제
-//        List<Employee> employeeList = department.getEmployeeList();
-//        for (Employee employee : employeeList) {
-//            em.remove(employee);
-//        }
-
-        // 부서 삭제
-        em.remove(department);
+        // 부서에 속한 모든 직원을 컬렉션에서 제거한다.
+        List<Employee> employeeList = department.getEmployeeList();
+        employeeList.clear();
 
         em.getTransaction().commit();
         em.close();
