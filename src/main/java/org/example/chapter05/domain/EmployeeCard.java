@@ -22,12 +22,6 @@ public class EmployeeCard {
 
     private String role;   // 권한
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "EMP_CARD_ID")
+    @OneToOne(mappedBy = "card")
     private Employee employee;
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-        employee.setCard(this);
-    }
 }
