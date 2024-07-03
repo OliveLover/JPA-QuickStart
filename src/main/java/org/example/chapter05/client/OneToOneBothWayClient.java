@@ -28,6 +28,7 @@ public class OneToOneBothWayClient {
 
         // 검색된 사원증을 통해 직원 정보 사용하기
         EmployeeCard employeeCard = em.find(EmployeeCard.class, 1L);
+        System.out.println("사원증을 통한 직원 정보 접근 : " + employeeCard.toString());
         System.out.println("사원증 유효기간 : " + employeeCard.getExpireDate());
         System.out.println("사원증 소유자 : " + employeeCard.getEmployee().getName());
 
