@@ -58,5 +58,8 @@ public class OneToOneBothWayClient {
 
         em.getTransaction().commit();
         em.close();
+
+        System.out.println("사원증을 통한 직원 정보 접근 : " + card.getEmployee().getName());
+        System.out.println("직원을 통한 사원증 정보 접근 : " + employee.getCard().getExpireDate());
     }
 }
