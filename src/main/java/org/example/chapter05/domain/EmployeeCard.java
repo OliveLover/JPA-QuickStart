@@ -23,4 +23,9 @@ public class EmployeeCard {
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "EMP_CARD_ID")
     private Employee employee;
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+        employee.setCard(this);
+    }
 }
