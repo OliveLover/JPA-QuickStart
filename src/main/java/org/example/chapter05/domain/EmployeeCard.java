@@ -1,11 +1,13 @@
 package org.example.chapter05.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@ToString(exclude = "employee")
 @Entity
 @Table(name = "S_EMP_CARD")
 public class EmployeeCard {
