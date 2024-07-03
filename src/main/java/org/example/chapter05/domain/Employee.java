@@ -15,4 +15,7 @@ public class Employee {
 
     @Column(length = 25, nullable = false)
     private String name;
+
+    @OneToOne(mappedBy = "employee")
+    private EmployeeCard card;
 }
