@@ -3,6 +3,8 @@ package org.example.chapter05.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,4 +21,7 @@ public class Product {
     private String shortDesc;   // 상품 설명
 
     private String category;    // 카테고리
+
+    @ManyToMany(mappedBy = "productList")
+    private List<Order> orderList = new ArrayList<>();
 }

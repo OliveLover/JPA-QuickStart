@@ -1,6 +1,7 @@
 package org.example.chapter05.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@ToString(exclude = "productList")
 @Entity
 @Table(name = "S_ORD")
 public class Order {
@@ -30,4 +32,12 @@ public class Order {
             , uniqueConstraints = @UniqueConstraint(columnNames = {"ORD_ID", "PRODUCT_ID"})
     )
     private List<Product> productList = new ArrayList<>();
+
+    // 상품(Product)를 등록할 때, 상품 쪽에 주문(Order) 정보도 설정한다.
+    public void addProduct(Product product) {
+        productList.add(product);
+
+        // 반대쪽(Product)에도 주문에 대한 참조 정보를 설정한다.
+        product.getOrderList().add(this);
+    }
 }
