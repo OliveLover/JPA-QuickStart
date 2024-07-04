@@ -23,7 +23,7 @@ public class Order {
 
     private Double total;       // 주문 금액
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "S_ITEM"
             , joinColumns = @JoinColumn(name = "ORD_ID")
             , inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
