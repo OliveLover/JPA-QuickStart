@@ -16,4 +16,11 @@ public class Employee {
     @Column(length = 25, nullable = false)
     private String name;
 
+    @OneToOne(mappedBy = "employee")
+    private EmployeeCard card;
+
+    public void setEmployeeCard(EmployeeCard card) {
+        this.card = card;
+        card.setEmployee(this);
+    }
 }
