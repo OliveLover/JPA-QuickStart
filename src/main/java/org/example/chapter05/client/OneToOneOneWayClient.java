@@ -25,7 +25,6 @@ public class OneToOneOneWayClient {
 
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
-
         EmployeeCard employeeCard = em.find(EmployeeCard.class, 1L);
         System.out.println("검색된 사원증 번혼 : " + employeeCard.getCardId());
         System.out.println("권한 : " + employeeCard.getRole());
@@ -46,9 +45,7 @@ public class OneToOneOneWayClient {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         card.setExpireDate(dateFormat.parse("2025-12-31"));
         card.setRole("MASTER");
-        // 직원에 대한 참조 설정
         card.setEmployee(employee);
-
         em.persist(card);
 
         em.getTransaction().commit();

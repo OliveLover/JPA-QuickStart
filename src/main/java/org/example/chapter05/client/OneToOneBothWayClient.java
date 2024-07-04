@@ -28,7 +28,7 @@ public class OneToOneBothWayClient {
 
 
         Employee employee = em.find(Employee.class, 1L);
-        System.out.println("사원증을 통한 직원 정보 접근 : " + employee.getCard().toString());
+//        System.out.println("사원증을 통한 직원 정보 접근 : " + employee.getCard().toString());
     }
 
     private static void dataInsert(EntityManagerFactory emf) throws ParseException {
@@ -46,7 +46,7 @@ public class OneToOneBothWayClient {
         Employee employee = new Employee();
         employee.setName("둘리");
         // 사원증에 대한 참조 설정
-        employee.setEmployeeCard(card);
+//        employee.setEmployeeCard(card);
         em.persist(employee);
 
 
