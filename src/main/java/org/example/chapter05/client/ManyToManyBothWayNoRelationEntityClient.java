@@ -1,5 +1,6 @@
 package org.example.chapter05.client;
 
+import org.example.chapter05.domain.Item;
 import org.example.chapter05.domain.Order;
 import org.example.chapter05.domain.Product;
 
@@ -27,20 +28,12 @@ public class ManyToManyBothWayNoRelationEntityClient {
 
         // 검색한 Order를 통해 Product 목록을 출력한다.
         Order order = em.find(Order.class, 1L);
-        System.out.println(order.getId() + "번 주문에 대한 상품 목록");
+        System.out.println("주문 날짜 : " + order.getOrderDate());
+        System.out.println("[주문 목록]");
 
-        List<Product> productList = order.getProductList();
-        for (Product product : productList) {
-            System.out.println("---> " + product.getName());
-        }
-
-        // 검색한 Product를 통해 Order 목록을 출력한다.
-        Product product = em.find(Product.class, 1L);
-
-        System.out.println(product.getName() + " 상품에 대한 주문 정보");
-        List<Order> orderList = product.getOrderList();
-        for (Order ord : orderList) {
-            System.out.println("---> " + ord.toString());
+        List<Item> itemList = order.getItemList();
+        for (Item item : itemList) {
+            System.out.println("---> " + item.getProduct().getName());
         }
     }
 
@@ -48,27 +41,33 @@ public class ManyToManyBothWayNoRelationEntityClient {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        // 1번 상품 목록
+        // 상품 등록
         Product product1 = new Product();
         product1.setName("LG 통돌이 세탁기");
         em.persist(product1);
 
-        // 2번 상품 등록
         Product product2 = new Product();
-        product2.setName("다이슨 청소기");
+        product2.setName("갤럭시 20");
         em.persist(product2);
 
-        // 1번 주문 등록
-        Order order1 = new Order();
-        order1.setOrderDate(new Date());
-        order1.addProduct(product1);
-        em.persist(order1);
+        // 주문 등록
+        Order order = new Order();
+        order.setOrderDate(new Date());
+        em.persist(order);
 
-        // 2번 주문 등록
-        Order order2 = new Order();
-        order2.setOrderDate(new Date());
-        order2.addProduct(product1);
-        em.persist(order2);
+        // 카트 등록
+        Item item1 = new Item();
+        item1.setOrder(order);
+        item1.setProduct(product1);
+        item1.setPrice(100_000L);
+        em.persist(item1);
+
+        Item item2 = new Item();
+        item2.setOrder(order);
+        item2.setProduct(product2);
+        item2.setPrice(270_000L);
+        item2.setQuantity(3L);
+        em.persist(item2);
 
         em.getTransaction().commit();
         em.close();

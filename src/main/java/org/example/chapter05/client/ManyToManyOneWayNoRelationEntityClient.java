@@ -29,10 +29,10 @@ public class ManyToManyOneWayNoRelationEntityClient {
         Order order = em.find(Order.class, 1L);
         System.out.println(order.getId() + "번 주문에 대한 상품 목록");
 
-        List<Product> productList = order.getProductList();
-        for (Product product : productList) {
-            System.out.println("---> " + product.getName());
-        }
+//        List<Product> productList = order.getProductList();
+//        for (Product product : productList) {
+//            System.out.println("---> " + product.getName());
+//        }
     }
 
     private static void dataInsert(EntityManagerFactory emf) {
@@ -53,8 +53,8 @@ public class ManyToManyOneWayNoRelationEntityClient {
         Order order = new Order();
         order.setOrderDate(new Date());
         // 주문 객체가 가진 상품 목록(productList)에 상품 저장
-        order.getProductList().add(product1);
-        order.getProductList().add(product2);
+//        order.getProductList().add(product1);
+//        order.getProductList().add(product2);
         em.persist(order);
 
         em.getTransaction().commit();

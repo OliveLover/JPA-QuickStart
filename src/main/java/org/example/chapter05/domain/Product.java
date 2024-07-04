@@ -22,6 +22,6 @@ public class Product {
 
     private String category;    // 카테고리
 
-    @ManyToMany(mappedBy = "productList")
-    private List<Order> orderList = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private List<Item> itemList = new ArrayList<>();
 }
