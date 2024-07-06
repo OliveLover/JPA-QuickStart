@@ -21,7 +21,4 @@ public class Product {
     private String shortDesc;   // 상품 설명
 
     private String category;    // 카테고리
-
-    @OneToMany(mappedBy = "product")
-    private List<Item> itemList = new ArrayList<>();
 }
