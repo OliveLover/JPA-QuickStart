@@ -23,6 +23,11 @@
 [다대일 연관관계 매핑](https://github.com/OliveLover/JPA-QuickStart/blob/main/study/4.%20%EB%8B%A4%EB%8C%80%EC%9D%BC%20%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%20%EB%A7%A4%ED%95%91.md)
   
 </li>
+<li>
+  
+[다양한 연관관계 매핑](https://github.com/OliveLover/JPA-QuickStart/blob/main/study/5.%20%EB%8B%A4%EC%96%91%ED%95%9C%20%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84%20%EB%A7%A4%ED%95%91.md)
+  
+</li>
 </ol>
 
 > 참고 도서 : JPA 퀵스타트(채규태 지음)
