@@ -10,8 +10,8 @@ import java.util.List;
 
 @Data
 @ToString(exclude = "itemList")
-@Entity
-@Table(name = "S_ORD")
+//@Entity
+//@Table(name = "S_ORD")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

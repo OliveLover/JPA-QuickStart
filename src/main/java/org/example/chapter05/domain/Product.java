@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "S_PRODUCT")
+//@Entity
+//@Table(name = "S_PRODUCT")
 public class Product {
 
     @Id

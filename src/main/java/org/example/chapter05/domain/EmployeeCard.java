@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Data
 @ToString(exclude = "employee")
-@Entity
-@Table(name = "S_EMP_CARD")
+//@Entity
+//@Table(name = "S_EMP_CARD")
 public class EmployeeCard {
 
     @Id
