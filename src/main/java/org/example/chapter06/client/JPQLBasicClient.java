@@ -3,10 +3,8 @@ package org.example.chapter06.client;
 import org.example.chapter06.domain.Employee;
 import org.example.chapter06.domain.EmployeeSalaryData;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,19 +26,18 @@ public class JPQLBasicClient {
         EntityManager em = emf.createEntityManager();
 
         // JPQL
-        String jpql = "SELECT " +
-                "NEW org.example.chapter06.domain.EmployeeSalaryData(id, salary, " +
-                "commissionPct) FROM Employee";
+        String jpql = "SELECT id, name, title, deptName, salary " +
+                "FROM Employee WHERE id = ?1 AND name = ?2";
 
         // JPQL 전송
-        TypedQuery<EmployeeSalaryData> query = em.createQuery(jpql, EmployeeSalaryData.class);
+        Query query = em.createQuery(jpql);
+        query.setParameter(1, 1L);
+        query.setParameter(2, "직원 1");
 
         // 검색 결과 처리
-        List<EmployeeSalaryData> resultList = query.getResultList();
-        System.out.println("검색된 직원 목록");
-        for (EmployeeSalaryData result : resultList) {
-            System.out.println("---> " + result.toString());
-        }
+        Object[] result = (Object[])query.getSingleResult();
+        System.out.println(result[0] + "번 직원의 정보");
+        System.out.println(Arrays.toString(result));
 
         em.close();
     }
@@ -57,6 +54,7 @@ public class JPQLBasicClient {
             employee.setDeptName("개발부");
             employee.setSalary(12700.00 * i);
             employee.setStartDate(new Date());
+            employee.setTitle("사원");
             employee.setCommissionPct(15.00);
             em.persist(employee);
         }
