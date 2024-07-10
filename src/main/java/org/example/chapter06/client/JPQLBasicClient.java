@@ -1,12 +1,13 @@
 package org.example.chapter06.client;
 
 import org.example.chapter06.domain.Employee;
-import org.example.chapter06.domain.EmployeeSalaryData;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class JPQLBasicClient {
     public static void main(String[] args) {
@@ -26,16 +27,16 @@ public class JPQLBasicClient {
         EntityManager em = emf.createEntityManager();
 
         // JPQL
-        String jpql = "SELECT id, name, title, deptName, salary " +
-                "FROM Employee WHERE id = ?1 AND name = ?2";
+        String jpql = "SELECT id, name, title, deptName, salary FROM Employee " +
+                "WHERE id = :employeeId AND name = :employeeName";
 
         // JPQL 전송
         Query query = em.createQuery(jpql);
-        query.setParameter(1, 1L);
-        query.setParameter(2, "직원 1");
+        query.setParameter("employeeId", 1L);
+        query.setParameter("employeeName", "직원 1");
 
         // 검색 결과 처리
-        Object[] result = (Object[])query.getSingleResult();
+        Object[] result = (Object[]) query.getSingleResult();
         System.out.println(result[0] + "번 직원의 정보");
         System.out.println(Arrays.toString(result));
 
