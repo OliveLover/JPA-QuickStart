@@ -5,6 +5,7 @@ import org.example.chapter06.domain.Employee;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.Date;
 
 public class JPQLBasicClient {
@@ -24,11 +25,14 @@ public class JPQLBasicClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        // 1번 직원 검색
-        Employee findEmp1 = em.find(Employee.class, 1L);
+        String jpql = "SELECT e FROM Employee e WHERE e.id = 1L";
+        TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
 
         // 1번 직원 검색
-        Employee findEmp2 = em.find(Employee.class, 1L);
+        Employee findEmp1 = query.getSingleResult();
+
+        // 1번 직원 검색
+        Employee findEmp2 = query.getSingleResult();
 
         if (findEmp1 == findEmp2) {
             System.out.println("두 객체의 주소는 동일하다.");
