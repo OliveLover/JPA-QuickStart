@@ -69,6 +69,13 @@ public class JPQLJoinClient {
         department3.setName("인재개발부");
         em.persist(department3);
 
+        // 부서 정보가 없는 새로운 직원 추가
+        Employee employee = new Employee();
+        employee.setName("아르바이트");
+        employee.setMailId("Alba-01");
+        employee.setSalary(1000.00);
+        em.persist(employee);
+
         em.getTransaction().commit();
         em.close();
     }
