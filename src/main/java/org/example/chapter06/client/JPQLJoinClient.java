@@ -26,7 +26,7 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e, e.dept FROM Employee e";
+        String jpql = "SELECT e, d FROM Employee e INNER JOIN e.dept d";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
         List<Object[]> resultList = (List<Object[]>) query.getResultList();
