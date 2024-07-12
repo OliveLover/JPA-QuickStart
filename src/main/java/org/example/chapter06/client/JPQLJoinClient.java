@@ -29,7 +29,8 @@ public class JPQLJoinClient {
         String jpql = "SELECT d.name, MAX(e.salary), MIN(e.salary), "
                 + "     SUM(e.salary), COUNT(e.salary), AVG(e.salary) "
                 + "FROM Employee e JOIN e.dept d "
-                + "GROUP BY d.name ";
+                + "GROUP BY d.name "
+                + "HAVING AVG(e.salary) >= 30000.0";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
         List<Object[]> resultList = (List<Object[]>) query.getResultList();
