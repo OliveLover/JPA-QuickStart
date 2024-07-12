@@ -26,7 +26,7 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e FROM Employee e JOIN FETCH e.dept";
+        String jpql = "SELECT e FROM Employee e LEFT JOIN FETCH e.dept";
         TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
 
         List<Employee> resultList = query.getResultList();
