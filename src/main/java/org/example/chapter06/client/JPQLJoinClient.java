@@ -26,7 +26,8 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e, d FROM Employee e LEFT OUTER JOIN e.dept d";
+        String jpql = "SELECT e, d FROM Employee e, Department d " +
+                "WHERE e.name = d.name";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
         List<Object[]> resultList = (List<Object[]>) query.getResultList();
@@ -34,12 +35,9 @@ public class JPQLJoinClient {
         for (Object[] result : resultList) {
             Employee employee = (Employee) result[0];
             Department department = (Department) result[1];
-            if (department != null) {
-                System.out.println(employee.getName() + "의 부서 " + department.getName());
-            } else {
-                System.out.println(employee.getName() + "는 대기중...");
-            }
+            System.out.println(employee.getName() + "의 부서 " + department.getName());
         }
+
         em.close();
     }
 
@@ -77,8 +75,13 @@ public class JPQLJoinClient {
         Employee employee = new Employee();
         employee.setName("아르바이트");
         employee.setMailId("Alba-01");
-        employee.setSalary(1000.00);
+        employee.setSalary(10000.00);
         em.persist(employee);
+
+        // 이름이 영업부인 새로운 직원 추가
+        Employee employee2 = new Employee();
+        employee2.setName("영업부");
+        em.persist(employee2);
 
         em.getTransaction().commit();
         em.close();
