@@ -26,16 +26,13 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e, d FROM Employee e, Department d " +
-                "WHERE e.name = d.name";
-        TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+        String jpql = "SELECT e FROM Employee e";
+        TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
 
-        List<Object[]> resultList = (List<Object[]>) query.getResultList();
+        List<Employee> resultList = query.getResultList();
         System.out.println("검색된 직원 목록");
-        for (Object[] result : resultList) {
-            Employee employee = (Employee) result[0];
-            Department department = (Department) result[1];
-            System.out.println(employee.getName() + "의 부서 " + department.getName());
+        for (Employee employee : resultList) {
+            System.out.println(employee.getName());
         }
 
         em.close();
