@@ -26,7 +26,7 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e, d FROM Employee e INNER JOIN e.dept d";
+        String jpql = "SELECT e, d FROM Employee e LEFT OUTER JOIN e.dept d";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
         List<Object[]> resultList = (List<Object[]>) query.getResultList();
@@ -34,7 +34,11 @@ public class JPQLJoinClient {
         for (Object[] result : resultList) {
             Employee employee = (Employee) result[0];
             Department department = (Department) result[1];
-            System.out.println(employee.getName() + "의 부서 " + department.getName());
+            if (department != null) {
+                System.out.println(employee.getName() + "의 부서 " + department.getName());
+            } else {
+                System.out.println(employee.getName() + "는 대기중...");
+            }
         }
         em.close();
     }
