@@ -26,17 +26,21 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e, e.dept FROM Employee e "
-                + "ORDER BY e.dept.name DESC, e.salary ASC";
+        String jpql = "SELECT e, e.dept FROM Employee e ORDER BY e.id";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+        int pageNumber = 2;
+        int pageSize = 5;
+        int startNum = (pageNumber * pageSize) - pageSize;
+        query.setFirstResult(startNum);
+        query.setMaxResults(pageSize);
 
         List<Object[]> resultList = (List<Object[]>) query.getResultList();
-        System.out.println("검색된 직원 목록");
+        System.out.println(pageNumber + "페이지에 해당하는 직원 목록");
         for (Object[] result : resultList) {
             Employee employee = (Employee) result[0];
             Department department = (Department) result[1];
-            System.out.println(department.getName() + "에 소속된 " +
-                    employee.getName() + "의 급여 " + employee.getSalary());
+            System.out.println(employee.getId() + " : " +
+                    employee.getName() + "의 부서 " + department.getName());
         }
 
         em.close();
