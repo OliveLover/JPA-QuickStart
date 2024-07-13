@@ -6,7 +6,7 @@ import org.example.chapter06.domain.Employee;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import java.util.List;
 
 public class JPQLNamedQueryClient {
@@ -26,8 +26,13 @@ public class JPQLNamedQueryClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        TypedQuery<Employee> query = em.createNamedQuery("Employee.searchByName", Employee.class);
-        query.setParameter("searchKeyword", "%영업%");
+        String sql = "SELECT * FROM S_EMP " +
+                "WHERE DEPT_ID = :deptID " +
+                "ORDER BY SALARY DESC";
+        Query query = em.createNativeQuery(sql, Employee.class);
+        query.setParameter("deptID", 2L);
+        query.setFirstResult(0);
+        query.setMaxResults(3);
 
         List<Employee> resultList = query.getResultList();
         for (Employee result : resultList) {
