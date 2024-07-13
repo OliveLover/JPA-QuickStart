@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.Arrays;
 import java.util.List;
 
 public class JPQLNamedQueryClient {
@@ -26,18 +27,14 @@ public class JPQLNamedQueryClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String sql = "SELECT * FROM S_EMP " +
-                "WHERE DEPT_ID = :deptID " +
-                "ORDER BY SALARY DESC";
-        Query query = em.createNativeQuery(sql, Employee.class);
-        query.setParameter("deptID", 2L);
+        Query query = em.createNamedQuery("Employee.searchByDeptId");
+        query.setParameter("deptId", 2L);
         query.setFirstResult(0);
         query.setMaxResults(3);
 
-        List<Employee> resultList = query.getResultList();
-        for (Employee result : resultList) {
-            System.out.println("---> " + result.getId() + "번 직원의 이름 : " +
-                    result.getName());
+        List<Object[]> resultList = query.getResultList();
+        for (Object[] result : resultList) {
+            System.out.println("---> " + Arrays.toString(result));
         }
 
         em.close();
