@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import java.util.Arrays;
 import java.util.List;
 
 public class JPQLFunctionClient {
@@ -26,16 +27,13 @@ public class JPQLFunctionClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT d.name, INDEX(e), e "
-                + "FROM Department d join d.employeeList e "
-                + "WHERE INDEX(e) = 2";
+        String jpql = "SELECT CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP "
+                + "FROM Department d";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
         List<Object[]> resultList = query.getResultList();
         for (Object[] result : resultList) {
-            Employee employee = (Employee) result[2];
-            System.out.println(result[0] + " " + result[1] +
-                    "번 인덱스에 저장된 직원 : " + employee.getName());
+            System.out.println("---> " + Arrays.toString(result));
         }
 
         em.close();
