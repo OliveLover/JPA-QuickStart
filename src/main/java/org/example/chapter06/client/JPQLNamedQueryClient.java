@@ -90,17 +90,17 @@ public class JPQLNamedQueryClient {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        Employee findEmp = em.find(Employee.class, 3L);
-        System.out.println("수정 전 급여 : " + findEmp.getSalary());
-
         Query query = em.createQuery("UPDATE Employee e "
                 + "SET e.salary=salary * 1.3 "
                 + "WHERE e.id = :empId");
         query.setParameter("empId", 3L);
-        int updateCount = query.executeUpdate();
-        System.out.println(updateCount + "건의 데이터 갱신됨");
+        query.executeUpdate();
 
-        System.out.println("수정 후 급여 : " + findEmp.getSalary());
+        String jpql = "SELECT e FROM Employee e WHERE e.id = 3L";
+        query = em.createQuery(jpql);
+        Employee employee = (Employee) query.getSingleResult();
+        System.out.println(employee.getId() + "번 직원의 수정된 급여 : " +
+                employee.getSalary());
 
         em.getTransaction().commit();
         em.close();
