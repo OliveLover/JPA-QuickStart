@@ -16,7 +16,7 @@ public class JPQLNamedQueryClient {
 
         try {
             dataInsert(emf);
-            dataDelete(emf);
+            dataUpdate(emf);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -90,13 +90,17 @@ public class JPQLNamedQueryClient {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        Query query = em.createQuery("UPDATE Employee e SET e.dept = :department "
+        Employee findEmp = em.find(Employee.class, 3L);
+        System.out.println("수정 전 급여 : " + findEmp.getSalary());
+
+        Query query = em.createQuery("UPDATE Employee e "
+                + "SET e.salary=salary * 1.3 "
                 + "WHERE e.id = :empId");
-        Department findDept = em.find(Department.class, 1L);
-        query.setParameter("department", findDept);
-        query.setParameter("empId", 7L);
+        query.setParameter("empId", 3L);
         int updateCount = query.executeUpdate();
         System.out.println(updateCount + "건의 데이터 갱신됨");
+
+        System.out.println("수정 후 급여 : " + findEmp.getSalary());
 
         em.getTransaction().commit();
         em.close();
