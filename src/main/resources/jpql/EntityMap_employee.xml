@@ -22,4 +22,16 @@
             ]]>
         </query>
     </named-query>
+
+    <named-native-query name="Employee.searchByDeptId">
+        <query>
+            <![CDATA[
+            SELECT E.ID, E.NAME ename, E.SALARY, D.NAME dname
+            FROM S_EMP E, S_DEPT D
+            WHERE E.DEPT_ID = D.DEPT_ID
+                AND E.DEPT_ID = :deptId
+            ]]>
+        </query>
+    </named-native-query>
+
 </entity-mappings>

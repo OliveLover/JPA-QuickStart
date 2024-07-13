@@ -15,13 +15,13 @@ import java.util.Date;
 //        @NamedQuery(name = "Employee.searchByName",
 //                query = "SELECT e FROM Employee e WHERE e.name like :searchKeyword")
 //})
-@NamedNativeQueries({
-        @NamedNativeQuery(name = "Employee.searchByDeptId",
-                query = "SELECT E.ID, E.NAME ename, E.SALARY, D.NAME dname " +
-                        "FROM S_EMP E, S_DEPT D " +
-                        "WHERE E.DEPT_ID = D.DEPT_ID " +
-                        " AND E.DEPT_ID = :deptId")
-})
+//@NamedNativeQueries({
+//        @NamedNativeQuery(name = "Employee.searchByDeptId",
+//                query = "SELECT E.ID, E.NAME ename, E.SALARY, D.NAME dname " +
+//                        "FROM S_EMP E, S_DEPT D " +
+//                        "WHERE E.DEPT_ID = D.DEPT_ID " +
+//                        " AND E.DEPT_ID = :deptId")
+//})
 public class Employee {
 
     @Id
