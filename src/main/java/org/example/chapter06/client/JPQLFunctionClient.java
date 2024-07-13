@@ -26,14 +26,16 @@ public class JPQLFunctionClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT d "
-                + "FROM Department d "
-                + "WHERE SIZE(d.employeeList) >= 3";
-        TypedQuery<Department> query = em.createQuery(jpql, Department.class);
+        String jpql = "SELECT d.name, INDEX(e), e "
+                + "FROM Department d join d.employeeList e "
+                + "WHERE INDEX(e) = 2";
+        TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
-        List<Department> resultList = query.getResultList();
-        for (Department result : resultList) {
-            System.out.println("---> " + result);
+        List<Object[]> resultList = query.getResultList();
+        for (Object[] result : resultList) {
+            Employee employee = (Employee) result[2];
+            System.out.println(result[0] + " " + result[1] +
+                    "번 인덱스에 저장된 직원 : " + employee.getName());
         }
 
         em.close();

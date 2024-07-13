@@ -19,6 +19,7 @@ public class Department {
 
     private String name;
 
+    @OrderColumn(name = "EMP_IDX")
     @OneToMany(mappedBy = "dept", cascade = CascadeType.PERSIST)
     private List<Employee> employeeList = new ArrayList<>();
 }
