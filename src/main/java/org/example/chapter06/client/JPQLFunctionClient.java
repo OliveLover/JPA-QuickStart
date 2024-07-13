@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import java.util.Arrays;
 import java.util.List;
 
 public class JPQLFunctionClient {
@@ -27,12 +26,14 @@ public class JPQLFunctionClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT ABS(-46), SQRT(9), MOD(20, 6) FROM Employee e";
-        TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+        String jpql = "SELECT d "
+                + "FROM Department d "
+                + "WHERE SIZE(d.employeeList) >= 3";
+        TypedQuery<Department> query = em.createQuery(jpql, Department.class);
 
-        List<Object[]> resultList = query.getResultList();
-        for (Object[] result : resultList) {
-            System.out.println("---> " + Arrays.toString(result));
+        List<Department> resultList = query.getResultList();
+        for (Department result : resultList) {
+            System.out.println("---> " + result);
         }
 
         em.close();

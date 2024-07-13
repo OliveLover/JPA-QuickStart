@@ -1,12 +1,14 @@
 package org.example.chapter06.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@ToString(exclude = "employeeList")
 @Entity
 @Table(name = "S_DEPT")
 public class Department {
