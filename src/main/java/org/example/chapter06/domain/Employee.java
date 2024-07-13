@@ -9,12 +9,12 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "S_EMP")
-@NamedQueries({
-        @NamedQuery(name = "Employee.searchById",
-                query = "SELECT e FROM Employee e WHERE e.id = :searchKeyword"),
-        @NamedQuery(name = "Employee.searchByName",
-                query = "SELECT e FROM Employee e WHERE e.name like :searchKeyword")
-})
+//@NamedQueries({
+//        @NamedQuery(name = "Employee.searchById",
+//                query = "SELECT e FROM Employee e WHERE e.id = :searchKeyword"),
+//        @NamedQuery(name = "Employee.searchByName",
+//                query = "SELECT e FROM Employee e WHERE e.name like :searchKeyword")
+//})
 public class Employee {
 
     @Id
