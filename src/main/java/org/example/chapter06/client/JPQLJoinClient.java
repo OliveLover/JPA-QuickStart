@@ -26,28 +26,17 @@ public class JPQLJoinClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT d.name, MAX(e.salary), MIN(e.salary), "
-                + "     SUM(e.salary), COUNT(e.salary), AVG(e.salary) "
-                + "FROM Employee e JOIN e.dept d "
-                + "GROUP BY d.name "
-                + "HAVING AVG(e.salary) >= 30000.0";
+        String jpql = "SELECT e, e.dept FROM Employee e "
+                + "ORDER BY e.dept.name DESC, e.salary ASC";
         TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
 
         List<Object[]> resultList = (List<Object[]>) query.getResultList();
-        System.out.println("부서 별 급여 정보");
+        System.out.println("검색된 직원 목록");
         for (Object[] result : resultList) {
-            String deptName = (String) result[0];
-            Double max = (Double) result[1];
-            Double min = (Double) result[2];
-            Double sum = (Double) result[3];
-            Long count = (Long) result[4];
-            Double avg = (Double) result[5];
-            System.out.print(deptName + " : ");
-            System.out.print("MAX(" + max + "), ");
-            System.out.print("MIN(" + min + "), ");
-            System.out.print("SUM(" + sum + "), ");
-            System.out.print("COUNT(" + count + "), ");
-            System.out.println("AVG(" + avg + ")");
+            Employee employee = (Employee) result[0];
+            Department department = (Department) result[1];
+            System.out.println(department.getName() + "에 소속된 " +
+                    employee.getName() + "의 급여 " + employee.getSalary());
         }
 
         em.close();
@@ -61,7 +50,7 @@ public class JPQLJoinClient {
         department1.setName("개발부");
         for (int i = 1; i <= 3; i++) {
             Employee employee = new Employee();
-            employee.setName("개발직원" + i);
+            employee.setName("개발직원 " + i);
             employee.setSalary(i * 12700.00);
             employee.setMailId("Dev-" + i);
             employee.setDept(department1);
