@@ -26,11 +26,16 @@ public class JPQLOperatorClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT d FROM Department d WHERE d.employeeList is empty";
+        String jpql = "SELECT d FROM Department d "
+                + "WHERE :employee member of d.employeeList";
         TypedQuery<Department> query = em.createQuery(jpql, Department.class);
 
+        // 6번 직원 객체를 검색하여 파라미터로 설정한다.
+        Employee findEmp = em.find(Employee.class, 6L);
+        query.setParameter("employee", findEmp);
+
         List<Department> resultList = query.getResultList();
-        System.out.println("직원이 없는 부서 목록");
+        System.out.println(findEmp.getId() + "번 직원이 소속되어 있는 부서 목록");
         for (Department department : resultList) {
             System.out.println(department.getName());
         }
