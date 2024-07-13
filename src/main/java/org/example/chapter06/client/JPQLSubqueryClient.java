@@ -26,16 +26,15 @@ public class JPQLSubqueryClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT d FROM Department d "
-                + "WHERE (SELECT COUNT(e) "
-                + "     FROM Employee e "
-                + "     WHERE d.id = e.dept) >= 3";
-        TypedQuery<Department> query = em.createQuery(jpql, Department.class);
+        String jpql = "SELECT e FROM Employee e "
+                + "WHERE e.salary > (SELECT AVG(e.salary) "
+                + "                 FROM Employee e)";
+        TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
 
-        List<Department> resultList = query.getResultList();
-        System.out.println("소속된 직원이 3명 이상인 부서 목록");
-        for (Department department : resultList) {
-            System.out.println(department.getName());
+        List<Employee> resultList = query.getResultList();
+        System.out.println("평균 이상의 급여 수급자 명단");
+        for (Employee employee : resultList) {
+            System.out.println(employee.getName());
         }
 
         em.close();
