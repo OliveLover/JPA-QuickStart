@@ -26,7 +26,7 @@ public class JPQLSubqueryClient {
     private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
-        String jpql = "SELECT e FROM Employee e "
+        String jpql = "SELECT e FROM Employee e JOIN FETCH e.dept "
                 + "WHERE e.salary > (SELECT AVG(e.salary) "
                 + "                 FROM Employee e)";
         TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
