@@ -5,7 +5,7 @@
                                  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
     <!-- 영속성 유닛 설정 -->
-    <persistence-unit name="Chapter06">
+    <persistence-unit name="Chapter07">
         <!-- Named Query XML -->
         <mapping-file>jpql/EntityMap_employee.xml</mapping-file>
 

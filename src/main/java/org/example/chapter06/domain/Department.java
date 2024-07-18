@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 @ToString(exclude = "employeeList")
-@Entity
-@Table(name = "S_DEPT")
+//@Entity
+//@Table(name = "S_DEPT")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
