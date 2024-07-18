@@ -26,14 +26,16 @@ public class CriteriaSearchClient {
         EntityManager em = emf.createEntityManager();
 
         // 검색 정보 설정
-        String searchCondition = "NAME";
-        String searchKeyword = "아르바이트";
+        String searchCondition = "TITLE";
+        String searchKeyword = "과장";
 
         // 검색 관련 쿼리
         String jpqlByMailId = "SELECT e FROM Employee e "
                 + "WHERE e.mailId=:searchKeyword";
         String jpqlByName = "SELECT e FROM Employee e "
                 + "WHERE e.name=:searchKeyword";
+        String jpqlByTitle = "SELECT e FROM Employee e "
+                + "WHERE e.title=:searchKeyword";
 
         TypedQuery<Employee> query = null;
 
@@ -42,6 +44,8 @@ public class CriteriaSearchClient {
             query = em.createQuery(jpqlByName, Employee.class);
         } else if (searchCondition.equals("MAILID")) {
             query = em.createQuery(jpqlByMailId, Employee.class);
+        } else if (searchCondition.equals("TITLE")) {
+            query = em.createQuery(jpqlByTitle, Employee.class);
         }
 
         query.setParameter("searchKeyword", searchKeyword);
