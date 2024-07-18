@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
 import java.util.List;
 
@@ -29,29 +32,40 @@ public class CriteriaSearchClient {
         String searchCondition = "TITLE";
         String searchKeyword = "과장";
 
-        // 검색 관련 쿼리
-        String jpqlByMailId = "SELECT e FROM Employee e "
-                + "WHERE e.mailId=:searchKeyword";
-        String jpqlByName = "SELECT e FROM Employee e "
-                + "WHERE e.name=:searchKeyword";
-        String jpqlByTitle = "SELECT e FROM Employee e "
-                + "WHERE e.title=:searchKeyword";
+        // 크라이테리어 빌더 생성
+        CriteriaBuilder builder = em.getCriteriaBuilder();
 
-        TypedQuery<Employee> query = null;
+        // 크라이테리어 쿼리 생성
+        CriteriaQuery<Employee> criteriaQuery =
+                builder.createQuery(Employee.class);
+
+        // FROM Employee emp
+        Root<Employee> emp = criteriaQuery.from(Employee.class);
+
+        // SELECT emp
+        criteriaQuery.select(emp);
 
         // 검색 조건에 따른 분기 처리
         if (searchCondition.equals("NAME")) {
-            query = em.createQuery(jpqlByName, Employee.class);
+            // WHERE name = :searchKeyword
+            criteriaQuery.where(
+                    builder.equal(emp.get("name"), searchKeyword)
+            );
         } else if (searchCondition.equals("MAILID")) {
-            query = em.createQuery(jpqlByMailId, Employee.class);
+            // WHERE mailId = :searchKeyword
+            criteriaQuery.where(
+                    builder.equal(emp.get("mailId"), searchKeyword)
+            );
         } else if (searchCondition.equals("TITLE")) {
-            query = em.createQuery(jpqlByTitle, Employee.class);
+            // WHERE name = :searchKeyword
+            criteriaQuery.where(
+                    builder.equal(emp.get("title"), searchKeyword)
+            );
         }
 
-        query.setParameter("searchKeyword", searchKeyword);
+        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
         List<Employee> resultList = query.getResultList();
 
-        System.out.println(searchCondition + "을 기준으로한 검색 결과 ");
         for (Employee result : resultList) {
             System.out.println("---> " + result.toString());
         }
