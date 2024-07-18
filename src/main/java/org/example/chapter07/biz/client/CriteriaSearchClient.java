@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,38 +37,21 @@ public class CriteriaSearchClient {
         CriteriaBuilder builder = em.getCriteriaBuilder();
 
         // 크라이테리어 쿼리 생성
-        CriteriaQuery<Employee> criteriaQuery =
-                builder.createQuery(Employee.class);
+        CriteriaQuery<Object[]> criteriaQuery =
+                builder.createQuery(Object[].class);
 
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
-        // SELECT emp
-        criteriaQuery.select(emp);
+        // SELECT emp.id, emp.name, emp.salary
+        criteriaQuery.multiselect(
+                emp.get("id"), emp.get("name"), emp.get("salary")
+        );
 
-        // 검색 조건에 따른 분기 처리
-        if (searchCondition.equals("NAME")) {
-            // WHERE name = :searchKeyword
-            criteriaQuery.where(
-                    builder.equal(emp.get("name"), searchKeyword)
-            );
-        } else if (searchCondition.equals("MAILID")) {
-            // WHERE mailId = :searchKeyword
-            criteriaQuery.where(
-                    builder.equal(emp.get("mailId"), searchKeyword)
-            );
-        } else if (searchCondition.equals("TITLE")) {
-            // WHERE name = :searchKeyword
-            criteriaQuery.where(
-                    builder.equal(emp.get("title"), searchKeyword)
-            );
-        }
-
-        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-        List<Employee> resultList = query.getResultList();
-
-        for (Employee result : resultList) {
-            System.out.println("---> " + result.toString());
+        TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
+        List<Object[]> resultList = query.getResultList();
+        for (Object[] result : resultList) {
+            System.out.println("---> " + Arrays.toString(result));
         }
 
         em.close();
