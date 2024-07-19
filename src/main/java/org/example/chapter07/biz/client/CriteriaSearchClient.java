@@ -33,7 +33,7 @@ public class CriteriaSearchClient {
         CriteriaQuery<Department> criteriaQuery =
                 builder.createQuery(Department.class);
 
-        // FROM Employee emp
+        // FROM Department dept
         Root<Department> dept = criteriaQuery.from(Department.class);
 
         // SELECT dept
@@ -43,6 +43,12 @@ public class CriteriaSearchClient {
         List<Department> resultList = query.getResultList();
         for (Department department : resultList) {
             System.out.println("부서명 : " + department.getName());
+
+            // 직원 목록 출력
+            List<Employee> employeeList = department.getEmployeeList();
+            for (Employee employee : employeeList) {
+                System.out.println(employee.getName());
+            }
         }
 
         em.close();
