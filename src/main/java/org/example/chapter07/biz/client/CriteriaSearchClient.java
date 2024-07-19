@@ -36,8 +36,11 @@ public class CriteriaSearchClient {
         // FROM Department dept
         Root<Department> dept = criteriaQuery.from(Department.class);
 
-        // SELECT dept
-        criteriaQuery.select(dept);
+        // JOIN FETCH dept.employeeList
+        dept.fetch("employeeList");
+
+        // SELECT DISTINCT dept
+        criteriaQuery.select(dept).distinct(true);
 
         TypedQuery<Department> query = em.createQuery(criteriaQuery);
         List<Department> resultList = query.getResultList();
