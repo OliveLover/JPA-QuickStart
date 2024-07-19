@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 import java.util.Date;
 import java.util.List;
@@ -42,8 +43,12 @@ public class CriteriaSearchClient {
         // JOIN FETCH emp.dept dept
         emp.fetch("dept");
 
-        // ORDER BY emp.dept.name DESC
-        criteriaQuery.orderBy(builder.desc(emp.get("dept").get("name")));
+        // ORDER BY emp.dept.name DESC, emp.salary DESC
+        Order[] orderList = {builder.desc(emp.get("dept").get("name")),
+                builder.desc(emp.get("salary"))
+        };
+
+        criteriaQuery.orderBy(orderList);
 
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
         List<Employee> resultList = query.getResultList();
