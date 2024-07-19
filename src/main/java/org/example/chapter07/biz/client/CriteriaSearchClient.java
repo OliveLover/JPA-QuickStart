@@ -31,28 +31,22 @@ public class CriteriaSearchClient {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Department> criteriaQuery =
-                builder.createQuery(Department.class);
+        CriteriaQuery<Employee> criteriaQuery =
+                builder.createQuery(Employee.class);
 
-        // FROM Department dept
-        Root<Department> dept = criteriaQuery.from(Department.class);
+        // FROM Employee emp
+        Root<Employee> emp = criteriaQuery.from(Employee.class);
 
         // JOIN FETCH dept.employeeList
-        dept.fetch("employeeList", JoinType.LEFT);
+        emp.fetch("dept", JoinType.LEFT);
 
-        // SELECT DISTINCT dept
-        criteriaQuery.select(dept).distinct(true);
+        // WHERE emp.dept is null
+        criteriaQuery.where(builder.isNull(emp.get("dept")));
 
-        TypedQuery<Department> query = em.createQuery(criteriaQuery);
-        List<Department> resultList = query.getResultList();
-        for (Department department : resultList) {
-            System.out.println("부서명 : " + department.getName());
-
-            // 직원 목록 출력
-            List<Employee> employeeList = department.getEmployeeList();
-            for (Employee employee : employeeList) {
-                System.out.println(employee.getName());
-            }
+        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+        List<Employee> resultList = query.getResultList();
+        for (Employee result : resultList) {
+            System.out.println("---> " + result.toString());
         }
 
         em.close();
