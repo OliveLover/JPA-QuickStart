@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Date;
 import java.util.List;
@@ -41,10 +41,17 @@ public class CriteriaSearchClient {
         criteriaQuery.select(emp);
 
         // JOIN FETCH dept.dept dept
-        emp.fetch("dept", JoinType.LEFT);
+        emp.fetch("dept");
 
-        // WHERE emp.mailId like%rona%
-        criteriaQuery.where(builder.like(emp.<String>get("mailId"), "%rona%"));
+        // WHERE emp.dept is not null
+        //  AND emp.mailId like Viru%
+        //  AND emp.salary >= 50000/00
+        Predicate[] condition = {builder.isNotNull(emp.get("dept")),
+                builder.like(emp.<String>get("mailId"), "Viru%"),
+                builder.ge(emp.<Double>get("salary"), 35000.00)
+        };
+        Predicate predicate = builder.and(condition);
+        criteriaQuery.where(predicate);
 
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
         List<Employee> resultList = query.getResultList();
