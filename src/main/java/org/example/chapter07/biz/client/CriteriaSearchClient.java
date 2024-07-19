@@ -9,8 +9,8 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,33 +31,26 @@ public class CriteriaSearchClient {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Employee> criteriaQuery =
-                builder.createQuery(Employee.class);
+        CriteriaQuery<Object[]> criteriaQuery =
+                builder.createQuery(Object[].class);
 
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
-        // SELECT emp
-        criteriaQuery.select(emp);
+        // SELECT emp.dept.name, SUM(emp.salary), COUNT(emp), AVG(emp.salary)
+        criteriaQuery.multiselect(emp.<String>get("dept").get("name")
+                , builder.sum(emp.<Double>get("salary"))
+                , builder.count(emp)
+                , builder.avg(emp.<Double>get("salary"))
+        );
 
-        // JOIN FETCH dept.dept dept
-        emp.fetch("dept");
+        // GROUP BY emp.dept.name
+        criteriaQuery.groupBy(emp.get("dept").get("name"));
 
-        // WHERE (emp.dept like 'Viru%'
-        //  OR emp.salary >= 35000.00
-        //  AND emp.dept.name = '영업부')
-        Predicate[] condition1 = {builder.like(emp.<String>get("mailId"), "Viru%"),
-                builder.ge(emp.<Double>get("salary"), 35000.00)
-        };
-        Predicate condition2 = builder.equal(emp.get("dept").get("name"), "영업부");
-
-        Predicate predicate = builder.and(builder.or(condition1), condition2);
-        criteriaQuery.where(predicate);
-
-        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-        List<Employee> resultList = query.getResultList();
-        for (Employee result : resultList) {
-            System.out.println("---> " + result.toString());
+        TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
+        List<Object[]> resultList = query.getResultList();
+        for (Object[] result : resultList) {
+            System.out.println("---> " + Arrays.toString(result));
         }
 
         em.close();
