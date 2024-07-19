@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +38,7 @@ public class CriteriaSearchClient {
         Root<Department> dept = criteriaQuery.from(Department.class);
 
         // JOIN FETCH dept.employeeList
-        dept.fetch("employeeList");
+        dept.fetch("employeeList", JoinType.LEFT);
 
         // SELECT DISTINCT dept
         criteriaQuery.select(dept).distinct(true);
