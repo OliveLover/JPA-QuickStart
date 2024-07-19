@@ -10,16 +10,24 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class CriteriaSearchClient {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter07");
         try {
+            // 사용자가 입력한 검색 조관과 검색 단어를 이용한다.
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("검색 조건을 입력하세요. : name 혹은 mailId");
+            String searchCondition = keyboard.nextLine();
+            System.out.println("검색어를 입력하세요.");
+            String searchKeyword = keyboard.nextLine();
+
             dataInsert(emf);
-            dataSelect(emf);
+            dataSelect(emf, searchCondition, searchKeyword);
+            keyboard.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -27,25 +35,21 @@ public class CriteriaSearchClient {
         }
     }
 
-    private static void dataSelect(EntityManagerFactory emf) {
+    private static void dataSelect(EntityManagerFactory emf, String searchCondition, String searchKeyword) {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Employee> criteriaQuery =
                 builder.createQuery(Employee.class);
 
-        /** 서브쿼리 생성 */
-        Subquery<Double> subquery = criteriaQuery.subquery(Double.class);
-
-        // FROM Employee e
-        Root<Employee> e = subquery.from(Employee.class);
-
-        // SELECT AVG(e.salary)
-        subquery.select(builder.avg(e.<Double>get("salary")));
-
-        /** 메인쿼리 생성 */
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
+
+        // SELECT emp
+        criteriaQuery.select(emp);
+
+        // JOIN FETCH emp.dept dept
+        emp.fetch("dept");
 
         // SELECT emp
         criteriaQuery.select(emp);
@@ -53,14 +57,29 @@ public class CriteriaSearchClient {
         // JOIN FETCH emp.dep dept
         emp.fetch("dept");
 
-        /** 메인쿼리에 서브쿼리 연결하기 */
-        // WHERE salary >= (서브쿼리)
-        criteriaQuery.where(builder.ge(emp.<Double>get("salary"), subquery));
+        if (searchCondition.equals("mailId")) {
+            // WHERE emp.mailId like %searchKeyword%
+            criteriaQuery.where(builder.like(
+                            emp.<String>get("mailId")
+                            , "%" + searchKeyword + "%"
+                    )
+            );
+        } else if (searchCondition.equals("name")) {
+            // WHERE emp.name like %searchKeyword%
+            criteriaQuery.where(builder.like(emp.<String>get("name")
+                            , "%" + searchKeyword + "%"
+                    )
+            );
+        }
 
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
         List<Employee> resultList = query.getResultList();
-        for (Employee result : resultList) {
-            System.out.println("---> " + result.toString());
+        if (resultList.size() == 0) {
+            System.out.println("검색 결과가 없습니다.");
+        } else {
+            for (Employee result : resultList) {
+                System.out.println("---> " + result.toString());
+            }
         }
 
         em.close();
@@ -84,6 +103,7 @@ public class CriteriaSearchClient {
             Employee employee = new Employee();
             employee.setName("개발맨 " + i);
 //            employee.setDeptName("개발부");
+            employee.setMailId("Corona" + i);
             employee.setDept(devDept);
             employee.setSalary(12700.00 * i);
             employee.setStartDate(new Date());
