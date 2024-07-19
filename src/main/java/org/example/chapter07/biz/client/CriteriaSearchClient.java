@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,29 +30,25 @@ public class CriteriaSearchClient {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Object[]> criteriaQuery =
-                builder.createQuery(Object[].class);
+        CriteriaQuery<Employee> criteriaQuery =
+                builder.createQuery(Employee.class);
 
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
-        // SELECT emp.dept.name, SUM(emp.salary), COUNT(emp), AVG(emp.salary)
-        criteriaQuery.multiselect(emp.<String>get("dept").get("name")
-                , builder.sum(emp.<Double>get("salary"))
-                , builder.count(emp)
-                , builder.avg(emp.<Double>get("salary"))
-        );
+        // SELECT emp
+        criteriaQuery.select(emp);
 
-        // GROUP BY emp.dept.name
-        criteriaQuery.groupBy(emp.get("dept").get("name"));
+        // JOIN FETCH emp.dept dept
+        emp.fetch("dept");
 
-        // HAVING BY emp.dept.name
-        criteriaQuery.having(builder.ge(builder.count(emp), 3));
+        // ORDER BY emp.dept.name DESC
+        criteriaQuery.orderBy(builder.desc(emp.get("dept").get("name")));
 
-        TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
-        List<Object[]> resultList = query.getResultList();
-        for (Object[] result : resultList) {
-            System.out.println("---> " + Arrays.toString(result));
+        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+        List<Employee> resultList = query.getResultList();
+        for (Employee result : resultList) {
+            System.out.println("---> " + result.toString());
         }
 
         em.close();
