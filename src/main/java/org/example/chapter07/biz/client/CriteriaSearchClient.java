@@ -10,24 +10,18 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
+
+import static javax.persistence.criteria.CriteriaBuilder.Trimspec.TRAILING;
 
 public class CriteriaSearchClient {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter07");
         try {
-            // 사용자가 입력한 검색 조관과 검색 단어를 이용한다.
-            Scanner keyboard = new Scanner(System.in);
-            System.out.println("검색 조건을 입력하세요. : name 혹은 mailId");
-            String searchCondition = keyboard.nextLine();
-            System.out.println("검색어를 입력하세요.");
-            String searchKeyword = keyboard.nextLine();
-
             dataInsert(emf);
-            dataSelect(emf, searchCondition, searchKeyword);
-            keyboard.close();
+            dataSelect(emf);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -35,51 +29,34 @@ public class CriteriaSearchClient {
         }
     }
 
-    private static void dataSelect(EntityManagerFactory emf, String searchCondition, String searchKeyword) {
+    private static void dataSelect(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Employee> criteriaQuery =
-                builder.createQuery(Employee.class);
+        CriteriaQuery<Object[]> criteriaQuery =
+                builder.createQuery(Object[].class);
 
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
-        // SELECT emp
-        criteriaQuery.select(emp);
+        // SELECT concat, substring, trim, lower, upper, length, locate
+        criteriaQuery.multiselect(
+                builder.concat(builder.concat(emp.<String>get("name"), "의 급여"),
+                        emp.<String>get("salary")),
+                builder.substring(emp.<String>get("name"), 1, 2),
+                builder.trim(TRAILING,
+                        Character.valueOf('부'),
+                        emp.<String>get("dept").<String>get("name")),
+                builder.lower(emp.<String>get("mailId")),
+                builder.upper(emp.<String>get("mailId")),
+                builder.length(emp.<String>get("mailId")),
+                builder.locate(emp.<String>get("mailId"), "rus")
+        );
 
-        // JOIN FETCH emp.dept dept
-        emp.fetch("dept");
-
-        // SELECT emp
-        criteriaQuery.select(emp);
-
-        // JOIN FETCH emp.dep dept
-        emp.fetch("dept");
-
-        if (searchCondition.equals("mailId")) {
-            // WHERE emp.mailId like %searchKeyword%
-            criteriaQuery.where(builder.like(
-                            emp.<String>get("mailId")
-                            , "%" + searchKeyword + "%"
-                    )
-            );
-        } else if (searchCondition.equals("name")) {
-            // WHERE emp.name like %searchKeyword%
-            criteriaQuery.where(builder.like(emp.<String>get("name")
-                            , "%" + searchKeyword + "%"
-                    )
-            );
-        }
-
-        TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-        List<Employee> resultList = query.getResultList();
-        if (resultList.size() == 0) {
-            System.out.println("검색 결과가 없습니다.");
-        } else {
-            for (Employee result : resultList) {
-                System.out.println("---> " + result.toString());
-            }
+        TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
+        List<Object[]> resultList = query.getResultList();
+        for (Object[] result : resultList) {
+            System.out.println("---> " + Arrays.toString(result));
         }
 
         em.close();
