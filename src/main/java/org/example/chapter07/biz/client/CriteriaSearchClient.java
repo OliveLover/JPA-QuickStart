@@ -47,6 +47,9 @@ public class CriteriaSearchClient {
         // GROUP BY emp.dept.name
         criteriaQuery.groupBy(emp.get("dept").get("name"));
 
+        // HAVING BY emp.dept.name
+        criteriaQuery.having(builder.ge(builder.count(emp), 3));
+
         TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
         List<Object[]> resultList = query.getResultList();
         for (Object[] result : resultList) {
