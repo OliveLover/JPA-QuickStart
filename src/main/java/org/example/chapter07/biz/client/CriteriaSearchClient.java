@@ -9,9 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -32,25 +30,19 @@ public class CriteriaSearchClient {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Object[]> criteriaQuery =
-                builder.createQuery(Object[].class);
+        CriteriaQuery<Department> criteriaQuery =
+                builder.createQuery(Department.class);
 
         // FROM Employee emp
         Root<Department> dept = criteriaQuery.from(Department.class);
 
-        // INNER JOIN emp.dept dept
-        Join<Department, Employee> emp = dept.join("employeeList");
+        // SELECT dept
+        criteriaQuery.select(dept);
 
-        // SELECT emp.name, emp.salary, dept.name
-        criteriaQuery.multiselect(
-                dept.get("name")    // 부서 이름
-                , emp.get("name")       // 직원 이름
-        );
-
-        TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
-        List<Object[]> resultList = query.getResultList();
-        for (Object[] result : resultList) {
-            System.out.println("---> " + Arrays.toString(result));
+        TypedQuery<Department> query = em.createQuery(criteriaQuery);
+        List<Department> resultList = query.getResultList();
+        for (Department department : resultList) {
+            System.out.println("부서명 : " + department.getName());
         }
 
         em.close();
