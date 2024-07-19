@@ -37,11 +37,14 @@ public class CriteriaSearchClient {
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
-        // JOIN FETCH dept.employeeList
+        // SELECT emp
+        criteriaQuery.select(emp);
+
+        // JOIN FETCH dept.dept dept
         emp.fetch("dept", JoinType.LEFT);
 
-        // WHERE emp.dept is null
-        criteriaQuery.where(builder.isNull(emp.get("dept")));
+        // WHERE emp.mailId like%rona%
+        criteriaQuery.where(builder.like(emp.<String>get("mailId"), "%rona%"));
 
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
         List<Employee> resultList = query.getResultList();
