@@ -14,8 +14,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static javax.persistence.criteria.CriteriaBuilder.Trimspec.TRAILING;
-
 public class CriteriaSearchClient {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Chapter07");
@@ -39,19 +37,19 @@ public class CriteriaSearchClient {
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
-        // SELECT concat, substring, trim, lower, upper, length, locate
+        // SELECT abs, sqrt, mod, sum, diff, prod, quot
         criteriaQuery.multiselect(
-                builder.concat(builder.concat(emp.<String>get("name"), "의 급여"),
-                        emp.<String>get("salary")),
-                builder.substring(emp.<String>get("name"), 1, 2),
-                builder.trim(TRAILING,
-                        Character.valueOf('부'),
-                        emp.<String>get("dept").<String>get("name")),
-                builder.lower(emp.<String>get("mailId")),
-                builder.upper(emp.<String>get("mailId")),
-                builder.length(emp.<String>get("mailId")),
-                builder.locate(emp.<String>get("mailId"), "rus")
+                builder.abs(emp.<Double>get("salary")), // 절댓값
+                builder.sqrt(emp.<Double>get("salary")),    // 제곱근
+                builder.mod(emp.<Integer>get("salary"), 3), // 나머지
+                builder.sum(emp.<Double>get("salary"), 100),    // 더하기
+                builder.diff(emp.<Double>get("salary"), 100),   // 빼기
+                builder.prod(emp.<Double>get("salary"), 100),   // 곱하기
+                builder.quot(emp.<Double>get("salary"), 100)    // 나누기
         );
+
+        // WHERE emp.name like '%개발%'
+        criteriaQuery.where(builder.like(emp.<String>get("name"), "%개발%"));
 
         TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
         List<Object[]> resultList = query.getResultList();
