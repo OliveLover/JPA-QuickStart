@@ -9,8 +9,8 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import java.util.Date;
 import java.util.List;
 
@@ -34,21 +34,28 @@ public class CriteriaSearchClient {
         CriteriaQuery<Employee> criteriaQuery =
                 builder.createQuery(Employee.class);
 
+        /** 서브쿼리 생성 */
+        Subquery<Double> subquery = criteriaQuery.subquery(Double.class);
+
+        // FROM Employee e
+        Root<Employee> e = subquery.from(Employee.class);
+
+        // SELECT AVG(e.salary)
+        subquery.select(builder.avg(e.<Double>get("salary")));
+
+        /** 메인쿼리 생성 */
         // FROM Employee emp
         Root<Employee> emp = criteriaQuery.from(Employee.class);
 
         // SELECT emp
         criteriaQuery.select(emp);
 
-        // JOIN FETCH emp.dept dept
+        // JOIN FETCH emp.dep dept
         emp.fetch("dept");
 
-        // ORDER BY emp.dept.name DESC, emp.salary DESC
-        Order[] orderList = {builder.desc(emp.get("dept").get("name")),
-                builder.desc(emp.get("salary"))
-        };
-
-        criteriaQuery.orderBy(orderList);
+        /** 메인쿼리에 서브쿼리 연결하기 */
+        // WHERE salary >= (서브쿼리)
+        criteriaQuery.where(builder.ge(emp.<Double>get("salary"), subquery));
 
         TypedQuery<Employee> query = em.createQuery(criteriaQuery);
         List<Employee> resultList = query.getResultList();
