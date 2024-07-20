@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -17,6 +18,10 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
     List<Employee> findByMailIdContainingOrderByNameDesc(String mailId);
 
-    @Query("SELECT emp FROM Employee emp WHERE emp.name like %?1%")
-    List<Employee> findByJPQL(String name);
+    @Query("SELECT emp "
+            + "FROM Employee emp "
+            + "WHERE emp.name like %:name% "
+            + "  OR emp.mailId like %:mailId%")
+    List<Employee> findByJPQL(@Param("name") String name
+            , @Param("mailId") String email);
 }

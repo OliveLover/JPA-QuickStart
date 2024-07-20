@@ -32,6 +32,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeeList(Employee employee) {
-        return empRepository.findByJPQL(employee.getName());
+        return empRepository.findByJPQL(employee.getName(), employee.getMailId());
     }
 }
