@@ -1,13 +1,14 @@
-package org.example.chapter07.biz.domain;
+package org.example.chapter08.biz.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
-//@Entity
-//@Table(name = "S_EMP")
+@ToString(exclude = "dept")
+@Entity
+@Table(name = "S_EMP")
 public class Employee {
 
     @Id
@@ -19,19 +20,7 @@ public class Employee {
     @Column(name = "MAIL_ID")
     private String mailId;
 
-    @Column(name = "START_DATE")
-    private Date startDate;
-
-    private String title;
-
-    // Department 객체와 관계를 맺으면서 사용하지 않음
-//    @Column(name = "DEPT_NAME")
-//    private String deptName;
-
     private Double salary;
-
-    @Column(name = "COMMISSION_PCT")
-    private Double commissionPct;
 
     @ManyToOne
     @JoinColumn(name = "DEPT_ID")

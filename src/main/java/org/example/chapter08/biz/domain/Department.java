@@ -1,4 +1,4 @@
-package org.example.chapter07.biz.domain;
+package org.example.chapter08.biz.domain;
 
 import lombok.Data;
 import lombok.ToString;
@@ -9,13 +9,13 @@ import java.util.List;
 
 @Data
 @ToString(exclude = "employeeList")
-//@Entity
-//@Table(name = "S_DEPT")
+@Entity
+@Table(name = "S_DEPT")
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "DEPT_ID")
     private Long deptId;
 
     private String name;
