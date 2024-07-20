@@ -20,6 +20,6 @@ public class Department {
 
     private String name;
 
-    @OneToMany(mappedBy = "dept")
+    @OneToMany(mappedBy = "dept", fetch = FetchType.EAGER)
     private List<Employee> employeeList = new ArrayList<>();
 }
