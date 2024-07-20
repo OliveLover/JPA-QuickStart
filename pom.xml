@@ -17,6 +17,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <springframework.version>5.2.5.RELEASE</springframework.version>
+        <spring.data.jpa.version>2.2.5.RELEASE</spring.data.jpa.version>
     </properties>
 
     <dependencies>
@@ -84,6 +85,13 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.5</version>
+        </dependency>
+
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.jpa.version}</version>
         </dependency>
 
     </dependencies>
