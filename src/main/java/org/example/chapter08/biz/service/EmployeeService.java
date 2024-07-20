@@ -32,6 +32,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeeList(Employee employee) {
-        return (List<Employee>) empRepository.findByNameContainingOrMailIdContaining(employee.getName(), employee.getMailId());
+        return (List<Employee>) empRepository.findByMailIdContainingOrderByNameDesc(employee.getMailId());
     }
 }

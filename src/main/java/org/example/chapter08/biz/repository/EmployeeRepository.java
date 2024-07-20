@@ -11,4 +11,6 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
     List<Employee> findByNameContaining(String name);
 
     List<Employee> findByNameContainingOrMailIdContaining(String name, String mailId);
+
+    List<Employee> findByMailIdContainingOrderByNameDesc(String mailId);
 }
