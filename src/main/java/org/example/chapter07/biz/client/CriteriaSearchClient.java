@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,26 +30,31 @@ public class CriteriaSearchClient {
         EntityManager em = emf.createEntityManager();
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Object[]> criteriaQuery =
-                builder.createQuery(Object[].class);
+        CriteriaQuery<Department> criteriaQuery =
+                builder.createQuery(Department.class);
 
-        // FROM Employee emp
-        Root<Employee> emp = criteriaQuery.from(Employee.class);
+        // FROM Department dept
+        Root<Department> dept = criteriaQuery.from(Department.class);
 
-        // SELECT abs, sqrt, mod, sum, diff, prod, quot
-        criteriaQuery.multiselect(
-                builder.currentDate(),  // 현재 날짜
-                builder.currentTime(),  // 현재 시간
-                builder.currentTimestamp()  // 현재 날짜와 시간
+        // SELECT dept
+        criteriaQuery.select(dept).distinct(true);
+
+        // JOIN FETCH dept.employeeList
+        dept.fetch("employeeList");
+
+        // WHERE employeeList.size > 2
+        criteriaQuery.where(
+                builder.ge(
+                        builder.size(dept.<List<Employee>>get("employeeList")), 3
+                )
+
         );
 
-        // WHERE emp.name = '아르바이트'
-        criteriaQuery.where(builder.equal(emp.get("name"), "아르바이트"));
+        TypedQuery<Department> query = em.createQuery(criteriaQuery);
 
-        TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
-        List<Object[]> resultList = query.getResultList();
-        for (Object[] result : resultList) {
-            System.out.println("---> " + Arrays.toString(result));
+        List<Department> resultList = query.getResultList();
+        for (Department department : resultList) {
+            System.out.println(department.getName());
         }
 
         em.close();
