@@ -39,17 +39,13 @@ public class CriteriaSearchClient {
 
         // SELECT abs, sqrt, mod, sum, diff, prod, quot
         criteriaQuery.multiselect(
-                builder.abs(emp.<Double>get("salary")), // 절댓값
-                builder.sqrt(emp.<Double>get("salary")),    // 제곱근
-                builder.mod(emp.<Integer>get("salary"), 3), // 나머지
-                builder.sum(emp.<Double>get("salary"), 100),    // 더하기
-                builder.diff(emp.<Double>get("salary"), 100),   // 빼기
-                builder.prod(emp.<Double>get("salary"), 100),   // 곱하기
-                builder.quot(emp.<Double>get("salary"), 100)    // 나누기
+                builder.currentDate(),  // 현재 날짜
+                builder.currentTime(),  // 현재 시간
+                builder.currentTimestamp()  // 현재 날짜와 시간
         );
 
-        // WHERE emp.name like '%개발%'
-        criteriaQuery.where(builder.like(emp.<String>get("name"), "%개발%"));
+        // WHERE emp.name = '아르바이트'
+        criteriaQuery.where(builder.equal(emp.get("name"), "아르바이트"));
 
         TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
         List<Object[]> resultList = query.getResultList();
