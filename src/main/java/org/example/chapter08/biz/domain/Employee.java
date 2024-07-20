@@ -22,7 +22,7 @@ public class Employee {
 
     private Double salary;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPT_ID")
     private Department dept;
 
