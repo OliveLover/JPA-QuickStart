@@ -22,7 +22,7 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
             + "FROM Employee emp "
             + "WHERE emp.name like %:name% "
             + "ORDER BY emp.id DESC")
-    List<Object[]> findByJPQL(@Param("name") String name);
+    List<Object[]> findByJPQL(@Param("name") String name, Pageable paing);
 
     @Query(value = "select id, name, salary "
             + "from s_emp "

@@ -3,6 +3,9 @@ package org.example.chapter08.biz.service;
 import org.example.chapter08.biz.domain.Employee;
 import org.example.chapter08.biz.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,7 @@ public class EmployeeService {
     }
 
     public List<Object[]> getEmployeeList(Employee employee) {
-        return empRepository.findByNativeQuery(employee.getName());
+        Pageable paging = PageRequest.of(0, 3, Sort.Direction.DESC, "id");
+        return empRepository.findByJPQL(employee.getName(), paging);
     }
 }
