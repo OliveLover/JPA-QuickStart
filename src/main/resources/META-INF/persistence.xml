@@ -6,27 +6,6 @@
 
     <!-- 영속성 유닛 설정 -->
     <persistence-unit name="Chapter08">
-        <!-- Named Query XML -->
-        <mapping-file>jpql/EntityMap_employee.xml</mapping-file>
-
-        <!-- 엔티티 클래스 등록 -->
-        <class>org.example.chapter02.biz.domain.Employee</class>
-
-        <!-- JPA 프로퍼티 설정 -->
-        <properties>
-            <!-- 데이터 소스 관련 설정 -->
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="javax.persistence.jdbc.user" value="sa"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test" />
-
-            <!-- JPA 구현체 관련 설정 -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.id.new_generator_mappings" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
-        </properties>
-
     </persistence-unit>
+
 </persistence>
