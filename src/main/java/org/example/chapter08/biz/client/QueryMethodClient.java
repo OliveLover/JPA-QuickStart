@@ -27,9 +27,9 @@ public class QueryMethodClient {
 
     private static void dataSelect(EmployeeService employeeService) {
         Employee employee = new Employee();
-        employee.setName("개발");
+        employee.setName("");
         employee.setMailId("Dev");
-        List<Employee> resultList = employeeService.getEmployeeList(employee);
+        List<Employee> resultList = employeeService.getEmployeeList(employee, 1);
 
         System.out.println("직원 목록");
         for (Employee result : resultList) {
