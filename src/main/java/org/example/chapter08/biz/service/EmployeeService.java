@@ -32,6 +32,6 @@ public class EmployeeService {
     }
 
     public List<Object[]> getEmployeeList(Employee employee) {
-        return empRepository.findByJPQL(employee.getName());
+        return empRepository.findByNativeQuery(employee.getName());
     }
 }
