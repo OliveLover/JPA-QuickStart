@@ -4,10 +4,12 @@ import org.example.chapter08.biz.domain.Employee;
 import org.example.chapter08.biz.persistence.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("empService")
+@Transactional
 public class EmployeeService {
 
     @Autowired

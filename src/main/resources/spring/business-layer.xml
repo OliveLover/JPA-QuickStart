@@ -1,71 +1,71 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-4.3.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-       http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--       xmlns:context="http://www.springframework.org/schema/context"-->
+<!--       xmlns:aop="http://www.springframework.org/schema/aop"-->
+<!--       xmlns:tx="http://www.springframework.org/schema/tx"-->
+<!--       xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+<!--       http://www.springframework.org/schema/beans/spring-beans.xsd-->
+<!--       http://www.springframework.org/schema/context-->
+<!--       http://www.springframework.org/schema/context/spring-context-4.3.xsd-->
+<!--       http://www.springframework.org/schema/aop-->
+<!--       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd-->
+<!--       http://www.springframework.org/schema/tx-->
+<!--       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">-->
 
-    <!-- 컴포넌트 스캔 설정 -->
-    <context:component-scan base-package="org.example.chapter08.biz"/>
+<!--    &lt;!&ndash; 컴포넌트 스캔 설정 &ndash;&gt;-->
+<!--    <context:component-scan base-package="org.example.chapter08.biz"/>-->
 
-    <!-- JPA 구현체 -->
-    <bean id="jpaVendorAdapter"
-          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+<!--    &lt;!&ndash; JPA 구현체 &ndash;&gt;-->
+<!--    <bean id="jpaVendorAdapter"-->
+<!--          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>-->
 
-    <!-- DataSource 등록 -->
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:tcp://localhost/~/test" />
-        <property name="username" value="sa" />
-        <property name="password" value="" />
-    </bean>
+<!--    &lt;!&ndash; DataSource 등록 &ndash;&gt;-->
+<!--    <bean id="dataSource"-->
+<!--          class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--        <property name="driverClassName" value="org.h2.Driver"/>-->
+<!--        <property name="url" value="jdbc:h2:tcp://localhost/~/test" />-->
+<!--        <property name="username" value="sa" />-->
+<!--        <property name="password" value="" />-->
+<!--    </bean>-->
 
-    <!-- EntityManager 공장 -->
-    <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
-        <property name="dataSource" ref="dataSource"/>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.dialect">
-                    org.hibernate.dialect.H2Dialect
-                </prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.id.new_generator_mappings">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
-            </props>
-        </property>
-    </bean>
+<!--    &lt;!&ndash; EntityManager 공장 &ndash;&gt;-->
+<!--    <bean id="entityManagerFactory"-->
+<!--          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+<!--        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>-->
+<!--        <property name="dataSource" ref="dataSource"/>-->
+<!--        <property name="jpaProperties">-->
+<!--            <props>-->
+<!--                <prop key="hibernate.dialect">-->
+<!--                    org.hibernate.dialect.H2Dialect-->
+<!--                </prop>-->
+<!--                <prop key="hibernate.show_sql">true</prop>-->
+<!--                <prop key="hibernate.format_sql">true</prop>-->
+<!--                <prop key="hibernate.id.new_generator_mappings">true</prop>-->
+<!--                <prop key="hibernate.hbm2ddl.auto">create</prop>-->
+<!--            </props>-->
+<!--        </property>-->
+<!--    </bean>-->
 
-    <!--=== Transaction 설정 ===-->
-    <!-- TransactionManager 등록 -->
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+<!--    &lt;!&ndash;=== Transaction 설정 ===&ndash;&gt;-->
+<!--    &lt;!&ndash; TransactionManager 등록 &ndash;&gt;-->
+<!--    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+<!--        <property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+<!--    </bean>-->
 
-    <!-- Transaction 어드바이스 설정 -->
-    <tx:advice id="txAdvice" transaction-manager="txManager">
-        <tx:attributes>
-            <tx:method name="*" rollback-for="Exception"/>
-        </tx:attributes>
-    </tx:advice>
+<!--    &lt;!&ndash; Transaction 어드바이스 설정 &ndash;&gt;-->
+<!--    <tx:advice id="txAdvice" transaction-manager="txManager">-->
+<!--        <tx:attributes>-->
+<!--            <tx:method name="*" rollback-for="Exception"/>-->
+<!--        </tx:attributes>-->
+<!--    </tx:advice>-->
 
-    <!-- Transaction AOP 설정 -->
-    <aop:config>
-        <aop:pointcut id="txPointcut"
-                      expression="execution(* org.example.chapter08.biz.service..*Service.*(..))"/>
+<!--    &lt;!&ndash; Transaction AOP 설정 &ndash;&gt;-->
+<!--    <aop:config>-->
+<!--        <aop:pointcut id="txPointcut"-->
+<!--                      expression="execution(* org.example.chapter08.biz.service..*Service.*(..))"/>-->
 
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
-    </aop:config>
+<!--        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>-->
+<!--    </aop:config>-->
 
-</beans>
+<!--</beans>-->

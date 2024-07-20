@@ -1,16 +1,17 @@
 package org.example.chapter08.biz.client;
 
+import org.example.chapter08.biz.config.SpringConfiguration;
 import org.example.chapter08.biz.domain.Department;
 import org.example.chapter08.biz.domain.Employee;
 import org.example.chapter08.biz.service.DepartmentService;
 import org.example.chapter08.biz.service.EmployeeService;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class EmployeeServiceClient {
 
     public static void main(String[] args) {
-        GenericXmlApplicationContext container =
-                new GenericXmlApplicationContext("spring/business-layer.xml");
+        AnnotationConfigApplicationContext container =
+                new AnnotationConfigApplicationContext(SpringConfiguration.class);
 
         DepartmentService deptService =
                 (DepartmentService) container.getBean("deptService");
