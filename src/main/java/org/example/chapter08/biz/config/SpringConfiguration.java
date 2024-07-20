@@ -3,6 +3,7 @@ package org.example.chapter08.biz.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,6 +18,10 @@ import java.util.Map;
 @Configuration
 @ComponentScan(basePackages = "org.example.chapter08.biz")
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "org.example.chapter08.biz.repository"
+//        , entityManagerFactoryRef = "factoryBean"
+//        , transactionManagerRef = "txManager"
+)
 public class SpringConfiguration {
 
     @Bean
@@ -35,7 +40,7 @@ public class SpringConfiguration {
         return dataSource;
     }
 
-    @Bean
+    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean factoryBean() {
         LocalContainerEntityManagerFactoryBean factoryBean =
                 new LocalContainerEntityManagerFactoryBean();
@@ -53,7 +58,7 @@ public class SpringConfiguration {
         return factoryBean;
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
     public JpaTransactionManager txManager(EntityManagerFactory factory) {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(factory);

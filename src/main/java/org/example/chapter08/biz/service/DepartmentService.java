@@ -12,7 +12,7 @@ public class DepartmentService {
 
     @Autowired
     private DepartmentRepository deptRepository;
-    
+
     public void insertDepartment(Department department) {
         deptRepository.save(department);
     }
