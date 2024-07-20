@@ -6,7 +6,6 @@ import org.example.chapter08.biz.domain.Employee;
 import org.example.chapter08.biz.service.DepartmentService;
 import org.example.chapter08.biz.service.EmployeeService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -28,29 +27,12 @@ public class QueryMethodClient {
 
     private static void dataSelect(EmployeeService employeeService) {
         Employee employee = new Employee();
-        employee.setName("");
-        employee.setMailId("Dev");
-        Page<Employee> pageInfo = employeeService.getEmployeeList(employee, 2);
+        employee.setName("개발");
+        List<Employee> resultList = employeeService.getEmployeeList(employee);
 
-        System.out.println("한 페이지에 출력되는 데이터 수 : " + pageInfo.getSize());
-        System.out.println("전체 페이지 수 : " + pageInfo.getTotalPages());
-        System.out.println("전체 데이터 수 : " + pageInfo.getTotalElements());
-        if (pageInfo.hasPrevious()) {
-            System.out.println("이전 페이지 : " + pageInfo.previousPageable());
-        } else {
-            System.out.println("첫 번째 페이지 입니다.");
-        }
-
-        if (pageInfo.hasNext()) {
-            System.out.println("다음 페이지 : " + pageInfo.nextPageable());
-        } else {
-            System.out.println("마지막 페이지 입니다.");
-        }
-
-        List<Employee> employeeList = pageInfo.getContent();
-        System.out.println("\n[ 검색된 회원 목록 ] ");
-        for (Employee emp : employeeList) {
-            System.out.println("---> " + emp.toString());
+        System.out.println("검색된 직원 목록");
+        for (Employee result : resultList) {
+            System.out.println("---> " + result.toString());
         }
     }
 
