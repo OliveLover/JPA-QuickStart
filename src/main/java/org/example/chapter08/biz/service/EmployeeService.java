@@ -32,6 +32,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeeList(Employee employee) {
-        return (List<Employee>) empRepository.findAll();
+        return (List<Employee>) empRepository.findByName(employee.getName());
     }
 }
