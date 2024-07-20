@@ -35,7 +35,8 @@ public class EmployeeRepository {
 
     public List<Employee> getEmployeeList(Employee employee) {
         System.out.println("===> JPA로 getEmployeeList() 기능 처리");
-        return em.createQuery("FROM Employee emp ORDER BY emp.id DESC")
+        return em.createQuery("FROM Employee emp JOIN FETCH emp.dept dept "
+                + "ORDER BY emp.id DESC")
                 .getResultList();
     }
 }

@@ -6,6 +6,8 @@ import org.example.chapter08.biz.service.DepartmentService;
 import org.example.chapter08.biz.service.EmployeeService;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+import java.util.List;
+
 public class EmployeeServiceClient {
 
     public static void main(String[] args) {
@@ -18,8 +20,20 @@ public class EmployeeServiceClient {
                 (EmployeeService) container.getBean("empService");
 
         dataInsert(deptService, employeeService);
+        dataSelect(employeeService);
 
         container.close();
+    }
+
+    private static void dataSelect(EmployeeService employeeService) {
+        List<Employee> employeeList =
+                employeeService.getEmployeeList(new Employee());
+
+        System.out.println("직원 목록");
+        for (Employee employee : employeeList) {
+            System.out.println("---> " + employee.getName() + "의 부서명 : " +
+                    employee.getDept().getName());
+        }
     }
 
     private static void dataInsert(DepartmentService deptService, EmployeeService employeeService) {
@@ -49,4 +63,5 @@ public class EmployeeServiceClient {
             employeeService.insertEmployee(employee);
         }
     }
+
 }
