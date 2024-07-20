@@ -31,7 +31,7 @@ public class EmployeeService {
         return empRepository.findById(employee.getId()).get();
     }
 
-    public List<Employee> getEmployeeList(Employee employee) {
-        return empRepository.findByJPQL(employee.getName(), employee.getMailId());
+    public List<Object[]> getEmployeeList(Employee employee) {
+        return empRepository.findByJPQL(employee.getName());
     }
 }

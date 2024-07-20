@@ -7,6 +7,7 @@ import org.example.chapter08.biz.service.DepartmentService;
 import org.example.chapter08.biz.service.EmployeeService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class QueryMethodClient {
@@ -28,11 +29,11 @@ public class QueryMethodClient {
     private static void dataSelect(EmployeeService employeeService) {
         Employee employee = new Employee();
         employee.setName("개발");
-        List<Employee> resultList = employeeService.getEmployeeList(employee);
+        List<Object[]> resultList = employeeService.getEmployeeList(employee);
 
         System.out.println("검색된 직원 목록");
-        for (Employee result : resultList) {
-            System.out.println("---> " + result.toString());
+        for (Object[] result : resultList) {
+            System.out.println("---> " + Arrays.toString(result));
         }
     }
 
